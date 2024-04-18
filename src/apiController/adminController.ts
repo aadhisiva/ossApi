@@ -42,7 +42,7 @@ adminRouter.post("/addToSurveyUser", async (req, res) => {
     try {
         let getBody = req.body;
         let result = await adminServices.assignToSurveyUser(getBody);
-        return await webAppResponse(res, result, "", "assignMentProcess", WEBMESSAGES.UPDATE, "", "role");
+        return await webAppResponse(res, result, "", "assignToSurveyUser", WEBMESSAGES.UPDATE, "", "role");
     } catch (error) {
         return await webAppResponse(res, error);
     }
@@ -52,7 +52,17 @@ adminRouter.post("/getMasterWithAssigned", async (req, res) => {
     try {
         let getBody = req.body;
         let result = await adminServices.getMasterWithAssigned(getBody);
-        return await webAppResponse(res, result, "", "assignMentProcess", WEBMESSAGES.GET_ALLDATA, "", "role");
+        return await webAppResponse(res, result, "", "getMasterWithAssigned", WEBMESSAGES.GET_ALLDATA, "", "role");
+    } catch (error) {
+        return await webAppResponse(res, error);
+    }
+});
+
+adminRouter.post("/getStagesWiseData", async (req, res) => {
+    try {
+        let getBody = req.body;
+        let result = await adminServices.getStagesWiseData(getBody);
+        return await webAppResponse(res, result, "", "getStagesWiseData", WEBMESSAGES.GET_ALLDATA, "", "role");
     } catch (error) {
         return await webAppResponse(res, error);
     }

@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aadhisiva/oss.git"
+    "url": "git+https://github.com/aadhisiva/ossApi.git"
   },
   "author": "aadhisivapanjagala@gmail.com",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/aadhisiva/oss/issues"
+    "url": "https://github.com/aadhisiva/ossApi/issues"
   },
-  "homepage": "https://github.com/aadhisiva/oss#readme",
+  "homepage": "https://github.com/aadhisiva/ossApi#readme",
   "dependencies": {
     "axios": "^1.6.4",
     "compression": "^1.7.4",

@@ -70,6 +70,9 @@ export class OssSurveyData {
   StudentAadharHash: string;
 
   @Column({ type: 'nvarchar', default: null, length: '100' })
+  StudentMaskedAadhar: string;
+
+  @Column({ type: 'nvarchar', default: null, length: '100' })
   Category: string;
 
   @Column({ type: 'nvarchar', default: null, length: '100' })

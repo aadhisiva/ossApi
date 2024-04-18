@@ -72,4 +72,10 @@ export class AdminServices {
         return await this.adminRepo.getMasterWithAssigned(data);
     };
 
+    async getStagesWiseData(data) {
+        const { DataType } = data;
+        if (!DataType) return { code: 400, message: "Provide DataType." };
+        return await this.adminRepo.getStagesWiseData(data);
+    };
+
 };

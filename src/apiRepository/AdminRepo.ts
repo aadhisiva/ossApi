@@ -68,4 +68,9 @@ export class AdminRepo {
         let expandCodesParams = expandCodeParameters(LoginType, DataType, Codes);
         return await AppDataSource.query(query, expandCodesParams);
     }
+    async getStagesWiseData (data) {
+        const { DataType, DistrictName, TalukName, GpName, VillageName } = data;
+        let query = `execute fetchMasterDataForReports @0,@1,@2,@3,@4`;
+        return await AppDataSource.query(query, [DataType, DistrictName, TalukName, GpName, VillageName]);
+    }
 };
