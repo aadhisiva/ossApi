@@ -1,4 +1,5 @@
 import axios from "axios";
+import Logger from "../../loggers/winstonLogger";
 
 const axiosGetChild = async (body) => {
     return await axios.post(process.env.SATS_API, body);

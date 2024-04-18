@@ -55,6 +55,16 @@ userRouter.post('/getChildDataWithSatsService', authTokenAndVersion, async (req,
     }
 });
 
+userRouter.post('/checkSats', authTokenAndVersion, async (req, res) => {
+    try {
+        let body = {...req.body, ...{UserId: req.headers.userid}};
+        let result = await userServices.justForCheckingSatsApi(body);
+        return mobileAppResponse(res, result, body, getRoleAndUserId(req, MOBILE_MESSAGES.GET_CHILD_DATA));
+    } catch (error) {
+        return mobileAppResponse(res, error);
+    }
+});
+
 /* ********************************** Kutumba api **************************************** */
 
 userRouter.post('/getKutumbaData', authTokenAndVersion, async (req, res) => {

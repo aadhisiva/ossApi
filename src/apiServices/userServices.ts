@@ -69,6 +69,10 @@ export class UserServices {
             return { code: 422, message: API_MESSAGES.VERIFICATION_FAILED };
         return { message: API_MESSAGES.VERIFICATION_SUCCESS, data: {} };
     }
+    async justForCheckingSatsApi(data){
+        let getUserDetails = await getStudentDetailsWithTypeWise(data);
+        return getUserDetails;
+    }
 
     async getChildDataWithSatsId(data) {
         const { type, rollNo } = data;

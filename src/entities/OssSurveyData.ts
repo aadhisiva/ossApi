@@ -18,7 +18,7 @@ export class OssSurveyData {
   @Column({ type: 'nvarchar', default: null, length: '50' })
   RCNumber: string;
 
-  @Column({ type: 'nvarchar', default: null, length: '10' })
+  @Column({ type: 'nvarchar', default: null, length: '30' })
   ParentGender: string;
 
   @Column({ type: 'nvarchar', default: null, length: '50' })
@@ -36,10 +36,10 @@ export class OssSurveyData {
   @Column({ type: 'nvarchar', default: null, length: '200' })
   ParentAddress: string;
 
-  @Column({ type: 'nvarchar', default: null, length: '20' })
+  @Column({ type: 'nvarchar', default: null, length: '50' })
   ParentCategory: string;
 
-  @Column({ type: 'nvarchar', default: null, length: '20' })
+  @Column({ type: 'nvarchar', default: null, length: '50' })
   ParentOccupation: string;
 
   @Column({ type: 'nvarchar', default: null, length: '100' })
@@ -51,13 +51,13 @@ export class OssSurveyData {
   @Column({ type: 'nvarchar', default: null, length: '50' })
   StudentMemberId: string;
   
-  @Column({ type: 'nvarchar', default: null, length: '20' })
+  @Column({ type: 'nvarchar', default: null, length: '50' })
   StudentRelation: string;
   
   @Column({ type: 'nvarchar', default: null, length: '30' })
   StudentDob: string;
   
-  @Column({ type: 'nvarchar', default: null, length: '20' })
+  @Column({ type: 'nvarchar', default: null, length: "50" })
   StudentGender: string;
   
   @Column({ type: 'nvarchar', default: null, length: '50' })
@@ -99,7 +99,7 @@ export class OssSurveyData {
   @Column({ type: 'nvarchar', default: null, length: '100' })
   StudentOther: string;
 
-  @Column({ type: 'nvarchar', default: null, length: '20' })
+  @Column({ type: 'nvarchar', default: null, length: "50" })
   StudentDisabilityType: string;
 
   @Column({ type: 'nvarchar', default: null, length: '100' })
