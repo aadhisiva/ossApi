@@ -105,6 +105,9 @@ import {
     @Column({ type: 'nvarchar', default: null, length: '300' })
     MBR_ADDRESS: string;
   
+    @Column({ type: 'nvarchar', default: null, length: '300' })
+    MBR_HASH_AADHAR: string;
+  
     @Column({ type: 'nvarchar', default: null, length: '30' })
     Kutumba_ID_status: string;
   
