@@ -51,6 +51,9 @@ export class AssignedData {
     @Column({ default: null, type: 'nvarchar', length: "40" })
     CreatedMobile: string;
 
+    @Column({ default: null, type: 'nvarchar', length: "40" })
+    ListType: string;
+
     @Column({ default: null, type: 'nvarchar', length: "50" })
     CreatedRole: string;
 

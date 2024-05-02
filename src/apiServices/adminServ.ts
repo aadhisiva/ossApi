@@ -21,14 +21,15 @@ export class AdminServices {
         const { Mobile } = data;
         if (!Mobile) return { code: 400, message: "Provide Mobile." };
         if (Mobile.length < 10 || Mobile.length > 10) return { code: 400, message: "Mobile Number length should be proper." };
-        data.Otp = generateOTP(4);
+        // data.Otp = generateOTP(4);
+        data.Otp = "1111";
         let checkInAssigned = await this.adminRepo.checkRoleInAssigned(data);
         if (!checkInAssigned) return { code: 422, message: "Data does't exists." };
-        let sendMessage = await this.otpServices.sendOtpAsSingleSms(Mobile, data.Otp);
-        await saveMobileOtps(Mobile, sendMessage?.otpMessage, sendMessage?.response, data?.UserId, data?.Otp);
-        if (sendMessage.code !== 200) {
-            return { code: 422, message: RESPONSEMSG.OTP_FAILED };
-        };
+        // let sendMessage = await this.otpServices.sendOtpAsSingleSms(Mobile, data.Otp);
+        // await saveMobileOtps(Mobile, sendMessage?.otpMessage, sendMessage?.response, data?.UserId, data?.Otp);
+        // if (sendMessage.code !== 200) {
+        //     return { code: 422, message: RESPONSEMSG.OTP_FAILED };
+        // };
         await this.adminRepo.updateLoginOtp(Mobile, data?.Otp);
         return {
             Otp: data?.Otp,
@@ -38,7 +39,6 @@ export class AdminServices {
     };
 
     async assignMentProcess(data) {
-        console.log("data", data);
         const { Mobile, Name, AssigningType, TalukOfficerMobile, TalukOfficerName, GpOfficerMobile, GpOfficerName } = data;
         if (!AssigningType) return { code: 400, message: "Provide AssigningType." };
         if (AssigningType == DISTRICT_OFFICER || AssigningType == BBMP_OFFICER) {

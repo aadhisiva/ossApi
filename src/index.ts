@@ -51,23 +51,23 @@ app.use(morgan('common', {
 }));
 
 app.use(morgan('dev'));
-  
-  app.get("/mapi/run", (req, res) => {
-    res.send("running")
-  })
-  
-  // controllers
-  app.use('/mapi/user', userRouter);
-  app.use('/mapi/admin', adminRouter);
-  
-  // db initialization while running the server 
-  AppDataSource.initialize().then(async (connection) => {
-    app.listen(port, () => {
-      Logger.info(`⚡️[Database]: Database connected....+++++++ ${port}`);
-    });
-  }).catch(error => {
-    Logger.error("connection error :::::::", error);
-    throw new Error("new Connection ERROR " + JSON.stringify(error));
-  })
+
+app.get("/mapi/run", (req, res) => {
+  res.send("running")
+})
+
+// controllers
+app.use('/mapi/user', userRouter);
+app.use('/mapi/admin', adminRouter);
+
+// db initialization while running the server 
+AppDataSource.initialize().then(async (connection) => {
+  app.listen(port, () => {
+    Logger.info(`⚡️[Database]: Database connected....+++++++ ${port}`);
+  });
+}).catch(error => {
+  Logger.error("connection error :::::::", error);
+  throw new Error("new Connection ERROR " + JSON.stringify(error));
+})
 
 
