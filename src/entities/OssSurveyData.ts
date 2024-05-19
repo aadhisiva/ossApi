@@ -36,7 +36,14 @@ export class OssSurveyData {
   @Column({ type: 'nvarchar', default: null, length: '200' })
   ParentAddress: string;
 
+<<<<<<< Updated upstream
   @Column({ type: 'nvarchar', default: null, length: '20' })
+=======
+  @Column({ type: 'nvarchar', default: null, length: '200' })
+  ParentAadhar: string;
+
+  @Column({ type: 'nvarchar', default: null, length: '50' })
+>>>>>>> Stashed changes
   ParentCategory: string;
 
   @Column({ type: 'nvarchar', default: null, length: '20' })

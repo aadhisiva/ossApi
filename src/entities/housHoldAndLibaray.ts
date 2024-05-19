@@ -21,6 +21,15 @@ export class HouseHoldAndLibrary {
     @Column({ default: null, type: 'nvarchar', length: "30" })
     MemberId: string;
 
+    @Column({ default: null, type: 'nvarchar', length: "100" })
+    ParentAadhar: string;
+
+    @Column({ default: null, type: 'nvarchar', length: "15" })
+    ParentMobile: string;
+
+    @Column({ default: null, type: 'nvarchar', length: "15" })
+    StudentId: string;
+
     @Column({ default: null, type: 'nvarchar', length: "30" })
     SurveyMode: string;
 

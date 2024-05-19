@@ -23,12 +23,21 @@ export class AdminServices {
         if (Mobile.length < 10 || Mobile.length > 10) return { code: 400, message: "Mobile Number length should be proper." };
         data.Otp = generateOTP(4);
         let checkInAssigned = await this.adminRepo.checkRoleInAssigned(data);
+<<<<<<< Updated upstream
         if (!checkInAssigned) return { code: 422, message: "Data does't exists." };
         let sendMessage = await this.otpServices.sendOtpAsSingleSms(Mobile, data.Otp);
         await saveMobileOtps(Mobile, sendMessage?.otpMessage, sendMessage?.response, data?.UserId, data?.Otp);
         if (sendMessage.code !== 200) {
             return { code: 422, message: RESPONSEMSG.OTP_FAILED };
         };
+=======
+        if (checkInAssigned?.length == 0) return { code: 422, message: "Data does't exists." };
+        // let sendMessage = await this.otpServices.sendOtpAsSingleSms(Mobile, data.Otp);
+        // await saveMobileOtps(Mobile, sendMessage?.otpMessage, sendMessage?.response, data?.UserId, data?.Otp);
+        // if (sendMessage.code !== 200) {
+        //     return { code: 422, message: RESPONSEMSG.OTP_FAILED };
+        // };
+>>>>>>> Stashed changes
         await this.adminRepo.updateLoginOtp(Mobile, data?.Otp);
         return {
             Otp: data?.Otp,
@@ -58,6 +67,17 @@ export class AdminServices {
             return await this.adminRepo.assignToGp(data);
         } else {
             return await this.adminRepo.assignToVillages(data);
+        }
+    };
+
+    async getAllWithCode(data){
+        const { ListType } = data;
+        if(ListType == "District"){
+            return await this.adminRepo.fetchDistrictAssigned(data);
+        } else if (ListType == "Taluk"){
+            return await this.adminRepo.fetchTalukAssigned(data);
+        } else if (ListType == "Gp"){
+            return await this.adminRepo.fetchGpAssigned(data);
         }
     };
 

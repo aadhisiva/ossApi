@@ -111,6 +111,9 @@ import {
     @Column({ type: 'nvarchar', default: null, length: '500' })
     UserId: string;
   
+    @Column({ type: 'nvarchar', default: null, length: '500' })
+    status: string;
+  
     @CreateDateColumn()
     CreatedDate: Date;
   
