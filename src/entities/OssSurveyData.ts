@@ -36,15 +36,11 @@ export class OssSurveyData {
   @Column({ type: 'nvarchar', default: null, length: '200' })
   ParentAddress: string;
 
-<<<<<<< Updated upstream
   @Column({ type: 'nvarchar', default: null, length: '20' })
-=======
+  ParentCategory: string;
+
   @Column({ type: 'nvarchar', default: null, length: '200' })
   ParentAadhar: string;
-
-  @Column({ type: 'nvarchar', default: null, length: '50' })
->>>>>>> Stashed changes
-  ParentCategory: string;
 
   @Column({ type: 'nvarchar', default: null, length: '20' })
   ParentOccupation: string;
@@ -58,13 +54,13 @@ export class OssSurveyData {
   @Column({ type: 'nvarchar', default: null, length: '50' })
   StudentMemberId: string;
   
-  @Column({ type: 'nvarchar', default: null, length: '20' })
+  @Column({ type: 'nvarchar', default: null, length: '100' })
   StudentRelation: string;
   
-  @Column({ type: 'nvarchar', default: null, length: '30' })
+  @Column({ type: 'nvarchar', default: null, length: '100' })
   StudentDob: string;
   
-  @Column({ type: 'nvarchar', default: null, length: '20' })
+  @Column({ type: 'nvarchar', default: null, length: '100' })
   StudentGender: string;
   
   @Column({ type: 'nvarchar', default: null, length: '50' })
@@ -85,13 +81,13 @@ export class OssSurveyData {
   @Column({ type: 'nvarchar', default: null, length: '100' })
   SchoolName: string;
 
-  @Column({ type: 'nvarchar', default: null, length: '200' })
+  @Column({ type: 'nvarchar', default: null, length: '500' })
   SchoolAddress: string;
 
-  @Column({ type: 'nvarchar', default: null, length: '59' })
+  @Column({ type: 'nvarchar', default: null, length: '100' })
   StudentLAS_Date: string;
 
-  @Column({ type: 'nvarchar', default: null, length: '50' })
+  @Column({ type: 'nvarchar', default: null, length: '100' })
   StudentNotGoing: string;
 
   @Column({ type: 'nvarchar', default: null, length: '50' })
@@ -103,16 +99,16 @@ export class OssSurveyData {
   @Column({ type: 'nvarchar', default: null, length: '100' })
   StudentSocial: string;
 
-  @Column({ type: 'nvarchar', default: null, length: '100' })
+  @Column({ type: 'nvarchar', default: null, length: 100 })
   StudentOther: string;
 
-  @Column({ type: 'nvarchar', default: null, length: '20' })
+  @Column({ type: 'nvarchar', default: null, length: 100 })
   StudentDisabilityType: string;
 
-  @Column({ type: 'nvarchar', default: null, length: '100' })
+  @Column({ type: 'nvarchar', default: null, length: 100 })
   StudentSpecialSupport: string;
 
-  @Column({ type: 'nvarchar', default: null, length: '30' })
+  @Column({ type: 'nvarchar', default: null, length: 100 })
   StudentDisability: string;
 
   @Column({ type: 'nvarchar', default: null, length: '30' })

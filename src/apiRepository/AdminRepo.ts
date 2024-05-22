@@ -29,51 +29,64 @@ export class AdminRepo {
         return dbRes;
     }
     async updateLoginOtp(Mobile, Otp) {
-        let dbRes = await assignedDataRepo.findOneBy({ Mobile });
+        let dbRes = await assignedDataRepo.findOneBy({ Mobile: Equal(Mobile) });
         let newData = { ...dbRes, ...{ Otp } };
         return assignedDataRepo.save(newData);
     }
     async assignToDistrict(data) {
         const { id } = data;
-        console.log("data", data);
         let findData = await assignedDataRepo.findOneBy({ id: Equal(id) });
-        console.log("findData", findData);
         let newData = { ...findData, ...data };
         return assignedDataRepo.save(newData);
     }
     async assignToTaluk(data) {
         const { id } = data;
-        let findData = await assignedDataRepo.findOneBy({ id });
+        let findData = await assignedDataRepo.findOneBy({ id: Equal(id) });
         let newData = { ...findData, ...data };
         return assignedDataRepo.save(newData);
     };
 
     async assignToGp(data) {
         const { id } = data;
-        let findData = await assignedDataRepo.findOneBy({ id });
+        let findData = await assignedDataRepo.findOneBy({ id: Equal(id) });
         let newData = { ...findData, ...data };
         return assignedDataRepo.save(newData);
     };
 
     async assignToVillages(data) {
         const { id } = data;
-        let findData = await userDataRepo.findOneBy({ id });
+        let findData = await userDataRepo.findOneBy({ id: Equal(id) });
         let newData = { ...findData, ...data };
         return userDataRepo.save(newData);
     };
 
     async fetchDistrictAssigned(data) {
         const { DistrictCode } = data;
-        return await assignedDataRepo.find({ where: { DistrictCode } });
+        return await assignedDataRepo.find({ where: { DistrictCode: Equal(DistrictCode) } });
     }
     async fetchTalukAssigned(data) {
         const { DistrictCode, TalukCode } = data;
-        return await assignedDataRepo.find({ where : { DistrictCode, TalukCode }});
+        return await assignedDataRepo.createQueryBuilder('s')
+        .select(["s.TalukOfficerName as Name", "s.TalukOfficerMobile as Mobile", "s.id as id", "s.AssigningType as AssigningType"])
+        .where("s.DistrictCode= :dcode and s.TalukCode= :tcode and s.ListType= :list", { dcode: DistrictCode, tcode: TalukCode, list: "Taluk" })
+        .getRawMany();
     }
     async fetchGpAssigned(data) {
-        const { TalukCode, GpOrWard } = data;
-        return await assignedDataRepo.find({ where: { GpOrWard, TalukCode }});
-    }
+        const { TalukCode, GpOrWard, DistrictCode } = data;
+        return await assignedDataRepo.createQueryBuilder('s')
+        .select(["s.GpOfficerName as Name", "s.GpOfficerMobile as Mobile", "s.id as id", "s.AssigningType as AssigningType"])
+        .where("s.DistrictCode= :dcode and s.TalukCode= :tcode and s.GpOrWard= :gpcode and s.ListType= :list", { dcode: DistrictCode, tcode: TalukCode, gpcode: GpOrWard, list: "Taluk" })
+        .getRawMany();
+    };
+    async fetchSurveyorData(data) {
+        const { TalukCode, GpOrWard, DistrictCode, VillageCode } = data;
+        return await userDataRepo.createQueryBuilder('s')
+        .select(["s.Name as Name", "s.Mobile as Mobile", "s.id as id", "s.Role as Role"])
+        .where("s.DistrictCode= :dcode and s.TalukCode= :tcode and s.GpOrWard= :gpcode and s.VillageCode= :vcode", 
+        { dcode: DistrictCode, tcode: TalukCode, gpcode: GpOrWard, vcode: VillageCode })
+        .getRawMany();
+    };
+
     async saveNewGpUser(data) {
         return userDataRepo.save(data);
     };
@@ -83,12 +96,9 @@ export class AdminRepo {
         let expandCodesParams = expandCodeParameters(LoginType, DataType, Codes);
         return await AppDataSource.query(query, expandCodesParams);
     }
-<<<<<<< Updated upstream
-=======
     async getStagesWiseData(data) {
         const { DataType, DistrictName, TalukName, GpName, VillageName } = data;
         let query = `execute fetchMasterDataForReports @0,@1,@2,@3,@4`;
         return await AppDataSource.query(query, [DataType, DistrictName, TalukName, GpName, VillageName]);
     }
->>>>>>> Stashed changes
 };
