@@ -57,6 +57,12 @@ export class AssignedData {
     @Column({ default: null, type: 'nvarchar', length: "40" })
     AssigningType: string;
 
+    @Column({ default: null, type: 'nvarchar', length: "100" })
+    MasterType: string;
+
+    @Column({ default: null, type: 'nvarchar', length: "100" })
+    ListType: string;
+
     @CreateDateColumn()
     createdDate: Date;
 

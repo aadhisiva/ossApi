@@ -34,6 +34,9 @@ import {
     @Column({ default: null, type: 'nvarchar', length: '100'})
     VillageName: string;
   
+    @Column({ default: null, type: 'nvarchar', length: '100'})
+    Type: string;
+  
     @CreateDateColumn()
     createdDate: Date;
   }

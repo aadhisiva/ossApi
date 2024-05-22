@@ -89,8 +89,8 @@ export class AdminServices {
     };
 
     async getStagesWiseData(data) {
-        const { LoginType } = data;
-        if (!LoginType) return { code: 400, message: "Provide LoginType." };
+        const { DataType } = data;
+        if (!DataType) return { code: 400, message: "Provide DataType." };
         return await this.adminRepo.getStagesWiseData(data);
     };
 
