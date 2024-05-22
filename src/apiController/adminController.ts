@@ -68,6 +68,16 @@ adminRouter.post("/getStagesWiseData", async (req, res) => {
     }
 });
 
+adminRouter.post("/getStagesWiseData", async (req, res) => {
+    try {
+        let getBody = req.body;
+        let result = await adminServices.getStagesWiseData(getBody);
+        return await webAppResponse(res, result, "", "getStagesWiseData", WEBMESSAGES.GET_ALLDATA, "", "role");
+    } catch (error) {
+        return await webAppResponse(res, error);
+    }
+});
+
 export {
     adminRouter
 };
