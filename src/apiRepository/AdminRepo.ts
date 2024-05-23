@@ -61,21 +61,21 @@ export class AdminRepo {
     };
 
     async fetchDistrictAssigned(data) {
-        const { DistrictCode } = data;
-        return await assignedDataRepo.find({ where: { DistrictCode: Equal(DistrictCode) } });
+        const { DistrictCode, ListType } = data;
+        return await assignedDataRepo.find({ where: { DistrictCode: Equal(DistrictCode), ListType: Equal(ListType) } });
     }
     async fetchTalukAssigned(data) {
-        const { DistrictCode, TalukCode } = data;
+        const { DistrictCode, TalukCode, ListType } = data;
         return await assignedDataRepo.createQueryBuilder('s')
         .select(["s.TalukOfficerName as Name", "s.TalukOfficerMobile as Mobile", "s.id as id", "s.AssigningType as AssigningType"])
-        .where("s.DistrictCode= :dcode and s.TalukCode= :tcode and s.ListType= :list", { dcode: DistrictCode, tcode: TalukCode, list: "Taluk" })
+        .where("s.DistrictCode= :dcode and s.TalukCode= :tcode and s.ListType= :list", { dcode: DistrictCode, tcode: TalukCode, list: ListType })
         .getRawMany();
     }
     async fetchGpAssigned(data) {
-        const { TalukCode, GpOrWard, DistrictCode } = data;
+        const { TalukCode, GpOrWard, DistrictCode, ListType } = data;
         return await assignedDataRepo.createQueryBuilder('s')
         .select(["s.GpOfficerName as Name", "s.GpOfficerMobile as Mobile", "s.id as id", "s.AssigningType as AssigningType"])
-        .where("s.DistrictCode= :dcode and s.TalukCode= :tcode and s.GpOrWard= :gpcode and s.ListType= :list", { dcode: DistrictCode, tcode: TalukCode, gpcode: GpOrWard, list: "Taluk" })
+        .where("s.DistrictCode= :dcode and s.TalukCode= :tcode and s.GpOrWard= :gpcode and s.ListType= :list", { dcode: DistrictCode, tcode: TalukCode, gpcode: GpOrWard, list: ListType })
         .getRawMany();
     };
     async fetchSurveyorData(data) {
