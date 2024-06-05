@@ -47,12 +47,16 @@ export class UserRepo {
     return await userDataRepo.save(newData);
   }
 
-  async getUsersList(data) {
-    const { Mobile } = data;
+  async getUsersList(Mobile) {
+    // const { Mobile } = data;
     return await userDataRepo.find({
-        where: {Mobile: Mobile},
+        where: {Mobile: Equal(Mobile)},
         select: ["UserId", "GpOrWard", "Name", "Type"],
     });
+    // console.log("adfkhjsgvdg", data)
+    // return await userDataRepo.createQueryBuilder('oss').select(['oss.UserId as UserId', 'oss.GpOrWard as GpOrWard', 'oss.Name as Name', 'oss.Type as Type'])
+    //   .where("oss.Mobile = :Mobile", { Mobile: Mobile })
+    //   .getRawMany()
   }
 
   async addUser(data) {

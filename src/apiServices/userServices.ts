@@ -309,18 +309,17 @@ export class UserServices {
             if (!ParentAadhar)
                 return { code: 400, message: "Provide ParentAadhar." };
             return await this.userRepo.saveSurveyData(data);
-        } else if (SurveyMode === "Sats") {
+        } else if (SurveyMode === "SatsId") {
             if (!StudentId)
                 return { code: 400, message: "Provide StudentId." };
             return await this.userRepo.saveSurveyData(data);
         } else if (SurveyMode === "NoId") {
-            if (!ParentMobile)
-                return { code: 400, message: "Provide ParentMobile." };
+            if (!ParentMobile) return { code: 400, message: "Provide ParentMobile." };
             return await this.userRepo.saveSurveyData(data);
         } else {
             return [];
-        }
-    }
+        };
+    };
 
     async saveOssSurveyForHousehold(data) {
         const { MemberId, RCNumber, SurveyMode, ParentAadhar, ParentMobile, StudentId } = data;

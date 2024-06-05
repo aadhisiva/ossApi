@@ -180,7 +180,7 @@ export const DecryptStringFromEncrypt = (key, IV, cipherText) => {
   return decrypted;
 };
 // convert kutumba decryptData readable formate
-export const expandCodeParameters = (type, DataType, codes) => {
+export const expandCodeParameters = (type, DataType, codes, TypeOfData) => {
  let getLength = codes.length;
  let newArray = ['','','','','','','','','','','',''];
  let slicedData = newArray.slice(getLength+2);
@@ -189,5 +189,6 @@ export const expandCodeParameters = (type, DataType, codes) => {
   };
   slicedData.unshift(DataType);
   slicedData.unshift(type);
+  slicedData.unshift(TypeOfData);
  return slicedData;
 };

@@ -4,8 +4,11 @@ import {
     Column,
     CreateDateColumn,
     UpdateDateColumn,
-    BeforeInsert
+    BeforeInsert,
+    ManyToOne,
+    JoinColumn
   } from "typeorm";
+import { RoleHierarchy } from "./rolesHierarchy";
   
   @Entity({name: "UserData"})
   export class UserData {
@@ -18,6 +21,10 @@ import {
 
     @Column({ type: 'nvarchar', default: null, length: '50' })
     Role: string;
+
+    @ManyToOne(()=> RoleHierarchy, rh => rh.id)
+    @JoinColumn({name: "RoleId"})
+    RoleId: string;
 
     @Column({ default: null, type: 'nvarchar', length: '50'})
     Name: string;
