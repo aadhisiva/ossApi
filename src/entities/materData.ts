@@ -20,16 +20,25 @@ import {
     TalukCode: string;
   
     @Column({ default: null, type: 'nvarchar', length: '100'})
+    TalukLGDCode: string;
+  
+    @Column({ default: null, type: 'nvarchar', length: '100'})
     TalukName: string;
   
     @Column({ default: null, type: 'nvarchar', length: '100'})
     GramPanchayatCode: string;
   
     @Column({ default: null, type: 'nvarchar', length: '100'})
+    GramPanchayatLGDCode: string;
+  
+    @Column({ default: null, type: 'nvarchar', length: '100'})
     GramPanchayatName: string;
   
     @Column({ default: null, type: 'nvarchar', length: '100'})
     VillageCode: string;
+  
+    @Column({ default: null, type: 'nvarchar', length: '100'})
+    VillageLGDCode: string;
   
     @Column({ default: null, type: 'nvarchar', length: '100'})
     VillageName: string;

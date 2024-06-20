@@ -146,6 +146,20 @@ export class UserRepo {
     return await ossDataRepo.save(data);
   };
 
+  async saveSurveyWithSats(data) {
+    const {StudentId} = data;
+    let findData = await ossDataRepo.findOneBy({StudentId: Equal(StudentId)});
+    let newData = {...findData, ...data};
+    return await ossDataRepo.save(newData);
+  };
+
+  async saveSurveyWithRcAndMember(data) {
+    const { StudentMemberId, RCNumber } = data;
+    let findData = await ossDataRepo.findOneBy({StudentMemberId: Equal(StudentMemberId), RCNumber: Equal(RCNumber)});
+    let newData = {...findData, ...data};
+    return await ossDataRepo.save(newData);
+  };
+
   async saveSurveyHouseHoldData(data) {
     return await houseHoldAndLibraryRepo.save(data);
   };

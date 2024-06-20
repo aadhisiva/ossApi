@@ -7,7 +7,6 @@ export * from "./StudentAndSchool";
 export * from "./OssSurveyData";
 export * from "./kutumba";
 export * from "./admin";
-export * from "./assignedData";
 export * from "./housHoldAndLibaray";
 export * from "./materData";
 export * from "./roles";

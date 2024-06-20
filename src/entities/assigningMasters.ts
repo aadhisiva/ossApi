@@ -38,13 +38,13 @@ export class AssigningMasters {
     GpCode: string;
 
     @Column({ default: null, type: 'nvarchar', length: "40" })
+    VillageCode: string;
+
+    @Column({ default: null, type: 'nvarchar', length: "40" })
     CreatedMobile: string;
 
     @Column({ default: null, type: 'nvarchar', length: "50" })
     CreatedRole: string;
-
-    @Column({ default: null, type: 'nvarchar', length: "40" })
-    AssigningType: string;
 
     @Column({ default: null, type: 'nvarchar', length: "100" })
     RuralOrUrban: string;

@@ -1,6 +1,6 @@
 import { Container } from 'typedi';
 import express from "express";
-import { webAppResponse, webAppResponseForLarge } from '../utils/errorHandling';
+import { webAppResponse } from '../utils/errorHandling';
 import { AdminServices } from '../apiServices/adminServ';
 import { WEBMESSAGES } from '../utils/constants';
 
@@ -115,6 +115,16 @@ adminRouter.post("/assignMentProcess", async (req, res) => {
         let getBody = req.body;
         let result = await adminServices.assignMentProcess(getBody);
         return await webAppResponse(res, result, "", "assignMentProcess", WEBMESSAGES.UPDATE, "", "role");
+    } catch (error) {
+        return await webAppResponse(res, error);
+    }
+});
+
+adminRouter.post("/assignToMasterAndRoles", async (req, res) => {
+    try {
+        let getBody = req.body;
+        let result = await adminServices.assignToMasterAndRoles(getBody);
+        return await webAppResponse(res, result, "", "assignToMasterAndRoles", WEBMESSAGES.UPDATE, "", "role");
     } catch (error) {
         return await webAppResponse(res, error);
     }

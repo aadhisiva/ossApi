@@ -1,6 +1,5 @@
 import { Admin } from "typeorm";
 import {
-  AssignedData,
   AssigningMasters,
   DataAccess,
   HouseHoldAndLibrary,
@@ -28,7 +27,6 @@ export const entities = () => {
     Kutumba,
     OssSurveyData,
     Admin,
-    AssignedData,
     HouseHoldAndLibrary,
     MasterData,
     Roles,

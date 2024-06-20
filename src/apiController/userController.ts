@@ -47,7 +47,7 @@ userRouter.post('/verifyOtp', authTokenAndVersion, async (req, res) => {
 
 userRouter.post('/getChildDataWithSatsService', authTokenAndVersion, async (req, res) => {
     try {
-        let body = {...req.body, ...{UserId: req.headers.userid}};
+        let body = {...req.body, ...{UserId: req?.headers?.userid}};
         let result = await userServices.getChildDataWithSatsId(body);
         return mobileAppResponse(res, result, body, getRoleAndUserId(req, MOBILE_MESSAGES.GET_CHILD_DATA));
     } catch (error) {
@@ -69,7 +69,7 @@ userRouter.post('/getKutumbaData', authTokenAndVersion, async (req, res) => {
 
 userRouter.post('/getDataModesWise', authTokenAndVersion, async (req, res) => {
     try {
-        let body = {...req.body, ...{UserId: req.headers.userid}};
+        let body = {...req.body, ...{UserId: req?.headers?.userid}};
         let result = await userServices.getDataModesWise(body);
         return mobileAppResponse(res, result, body, getRoleAndUserId(req, MOBILE_MESSAGES.GET_KUTUMBA_DATA));
     } catch (error) {
@@ -79,7 +79,7 @@ userRouter.post('/getDataModesWise', authTokenAndVersion, async (req, res) => {
 
 userRouter.post('/getDbCounts', authTokenAndVersion, async (req, res) => {
     try {
-        let body = {...req.body, ...{UserId: req.headers.userid}};
+        let body = {...req.body, ...{UserId: req?.headers?.userid}};
         let result = await userServices.getDbCounts(body);
         return mobileAppResponse(res, result, body, getRoleAndUserId(req, MOBILE_MESSAGES.GET_KUTUMBA_DATA));
     } catch (error) {
@@ -89,7 +89,7 @@ userRouter.post('/getDbCounts', authTokenAndVersion, async (req, res) => {
 
 userRouter.post('/getListWise', authTokenAndVersion, async (req, res) => {
     try {
-        let body = {...req.body, ...{UserId: req.headers.userid}};
+        let body = {...req.body, ...{UserId: req?.headers?.userid}};
         let result = await userServices.getListWise(body);
         return mobileAppResponse(res, result, body, getRoleAndUserId(req, MOBILE_MESSAGES.GET_KUTUMBA_DATA));
     } catch (error) {
@@ -98,7 +98,7 @@ userRouter.post('/getListWise', authTokenAndVersion, async (req, res) => {
 });
 userRouter.post('/getEachList', authTokenAndVersion, async (req, res) => {
     try {
-        let body = {...req.body, ...{UserId: req.headers.userid}};
+        let body = {...req.body, ...{UserId: req?.headers?.userid}};
         let result = await userServices.getEachList(body);
         return mobileAppResponse(res, result, body, getRoleAndUserId(req, MOBILE_MESSAGES.GET_KUTUMBA_DATA));
     } catch (error) {
@@ -108,7 +108,7 @@ userRouter.post('/getEachList', authTokenAndVersion, async (req, res) => {
 
 userRouter.post('/saveOssSurvey', authTokenAndVersion, async (req, res) => {
     try {
-        let body = {...req.body, ...{UserId: req.headers.userid}};
+        let body = {...req.body, ...{UserId: req?.headers?.userid}};
         let result = await userServices.saveOssSurvey(body);
         return mobileAppResponse(res, result, body, getRoleAndUserId(req, MOBILE_MESSAGES.GET_KUTUMBA_DATA));
     } catch (error) {
@@ -118,7 +118,7 @@ userRouter.post('/saveOssSurvey', authTokenAndVersion, async (req, res) => {
 
 userRouter.post('/saveOssSurveyForHousehold', authTokenAndVersion, async (req, res) => {
     try {
-        let body = {...req.body, ...{UserId: req.headers.userid}};
+        let body = {...req.body, ...{UserId: req?.headers?.userid}};
         let result = await userServices.saveOssSurveyForHousehold(body);
         return mobileAppResponse(res, result, body, getRoleAndUserId(req, MOBILE_MESSAGES.GET_KUTUMBA_DATA));
     } catch (error) {

@@ -33,7 +33,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(compression()); // for response in low sizes
 
 // cors setup for communication of sever and client
-app.use(cors());
+app.use(cors({
+  origin: ["http://103.138.196.120", "https://childrensurvey.karnataka.gov.in", "http://childrensurvey.karnataka.gov.in", "http://localhost:8080"]
+}));
 
 //setting req headers and res headers 
 app.use(function (req, res, next) {

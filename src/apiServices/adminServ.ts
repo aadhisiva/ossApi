@@ -4,6 +4,7 @@ import { OtpServices } from "../sms/smsServceResusable";
 import { generateOTP, generateUniqueId, saveMobileOtps } from "../utils/resuableCode";
 import { RESPONSEMSG } from "../utils/statusCodes";
 import { BBMP_OFFICER, DISTRICT_OFFICER, DIVISION_OFFICER, GP_OFFICER, TALUK_OFFICER, ZONE_OFFICER } from "../utils/constants";
+import { AssigningMasters } from "../entities";
 
 
 @Service()
@@ -39,9 +40,8 @@ export class AdminServices {
     };
 
     async assignMentProcess(data) {
-        const { Mobile, Name, AssigningType, ListType } = data;
+        const { Mobile, Name, ListType } = data;
         if (!ListType) return { code: 400, message: "Provide ListType." };
-        if (!AssigningType) return { code: 400, message: "Provide AssigningType." };
         if (!Mobile) return { code: 400, message: "Provide Mobile." };
         if (!Name) return { code: 400, message: "Provide Name." };
         if (Mobile.length < 10 || Mobile.length > 10) return { code: 400, message: "Mobile Number length should be proper." };
@@ -50,6 +50,19 @@ export class AdminServices {
         } else {
             return await this.adminRepo.assignToSurveyor(data);
         }
+    };
+
+    async assignToMasterAndRoles(data) {
+        const { Mobile, Name, DistrictCode, TalukCode, GpCode, VillageCode } = data;
+        if (!DistrictCode) return { code: 400, message: "Provide DistrictCode." };
+        if (!TalukCode) return { code: 400, message: "Provide TalukCode." };
+        if (!GpCode) return { code: 400, message: "Provide GpCode." };
+        if (!VillageCode) return { code: 400, message: "Provide VillageCode." };
+        if (!Mobile) return { code: 400, message: "Provide Mobile." };
+        if (!Name) return { code: 400, message: "Provide Name." };
+        if (Mobile.length < 10 || Mobile.length > 10) return { code: 400, message: "Mobile Number length should be proper." };
+        await this.adminRepo.updateGpInMaster(data);
+        return await this.adminRepo.assigningToEachMaster(data);
     };
 
     // async getAllWithCode(data) {
@@ -74,6 +87,8 @@ export class AdminServices {
             return await this.adminRepo.fetchGpAssigned(data);
         } else if (ListType == "User") {
             return await this.adminRepo.fetchSurveyorData(data);
+        } else if (ListType == "Approval") {
+            return await this.adminRepo.fetchApporvalData(data);
         }
     };
 
@@ -115,11 +130,11 @@ export class AdminServices {
             Otp: data?.Otp,
             Mobile: Mobile,
             assignedData: checkInAssigned
-        };              
+        };
     };
 
-    async getRolesAndAccessData(data){
-        const {RoleId} = data;
+    async getRolesAndAccessData(data) {
+        const { RoleId } = data;
         if (!RoleId) return { code: 400, message: "Provide RoleId." };
         return await this.adminRepo.fetchRolesAndAccess(data);
     }
@@ -152,9 +167,9 @@ export class AdminServices {
 
     async roleAssignment(data) {
         const { DataType } = data;
-        if(DataType == 'role'){
+        if (DataType == 'role') {
             return await this.adminRepo.findRoleHierarchy(data);
-        } else if(DataType == 'access'){
+        } else if (DataType == 'access') {
             return await this.adminRepo.findAccess(data);
         } else {
             return await this.adminRepo.findRoles(data);
@@ -163,9 +178,9 @@ export class AdminServices {
 
     async AssignRoles(data) {
         const { DataType } = data;
-        if(DataType == 'role'){
+        if (DataType == 'role') {
             return await this.adminRepo.saveRoleHierarchy(data);
-        } else if(DataType == 'access'){
+        } else if (DataType == 'access') {
             return await this.adminRepo.saveAccess(data);
         } else {
             return await this.adminRepo.saveRoles(data);
@@ -174,9 +189,9 @@ export class AdminServices {
 
     async deleteRoles(data) {
         const { DataType, id } = data;
-        if(DataType == 'role'){
+        if (DataType == 'role') {
             return await this.adminRepo.deleteRoleHierarchy(id);
-        } else if(DataType == 'access'){
+        } else if (DataType == 'access') {
             return await this.adminRepo.deleteAccess(id);
         } else {
             return await this.adminRepo.deleteRoles(id);

@@ -304,7 +304,7 @@ export class UserServices {
                 if (checkStudentData && checkStudentData?.Status === "Verified")
                     return { code: 422, message: "Already Registered." };
             }
-            return await this.userRepo.saveSurveyData(data);
+            return await this.userRepo.saveSurveyWithRcAndMember(data);
         } else if (SurveyMode === "Aadhar") {
             if (!ParentAadhar)
                 return { code: 400, message: "Provide ParentAadhar." };
@@ -312,7 +312,7 @@ export class UserServices {
         } else if (SurveyMode === "SatsId") {
             if (!StudentId)
                 return { code: 400, message: "Provide StudentId." };
-            return await this.userRepo.saveSurveyData(data);
+            return await this.userRepo.saveSurveyWithSats(data);
         } else if (SurveyMode === "NoId") {
             if (!ParentMobile) return { code: 400, message: "Provide ParentMobile." };
             return await this.userRepo.saveSurveyData(data);
@@ -345,6 +345,7 @@ export class UserServices {
             let checkStudentId = await this.userRepo.checkSatsInHouseHold(StudentId);
             if (checkStudentId)
                 return { code: 422, message: "Already Registered." };
+            return [];
         } else if (SurveyMode === "NoId") {
             if (!ParentMobile)
                 return { code: 400, message: "Provided ParentMobile." };
