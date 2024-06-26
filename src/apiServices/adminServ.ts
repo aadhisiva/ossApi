@@ -48,6 +48,7 @@ export class AdminServices {
         if (ListType == "District" || ListType == "Taluk" || ListType == "Gp") {
             return await this.adminRepo.assigningToEachMaster(data);
         } else {
+            data.UserId = generateUniqueId();
             return await this.adminRepo.assignToSurveyor(data);
         }
     };

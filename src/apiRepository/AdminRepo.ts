@@ -41,59 +41,7 @@ export class AdminRepo {
         // let newData = { ...dbRes, ...{ Otp } };
         return [];
     }
-    // async assignToDistrict(data) {
-    //     const { id } = data;
-    //     let findData = await assignedDataRepo.findOneBy({ id: Equal(id) });
-    //     let newData = { ...findData, ...data };
-    //     return assignedDataRepo.save(newData);
-    // }
-    // async assignToTaluk(data) {
-    //     const { id } = data;
-    //     let findData = await assignedDataRepo.findOneBy({ id: Equal(id) });
-    //     let newData = { ...findData, ...data };
-    //     return assignedDataRepo.save(newData);
-    // };
 
-    // async assignToGp(data) {
-    //     const { id } = data;
-    //     let findData = await assignedDataRepo.findOneBy({ id: Equal(id) });
-    //     let newData = { ...findData, ...data };
-    //     return assignedDataRepo.save(newData);
-    // };
-
-    // async assignToVillages(data) {
-    //     const { id } = data;
-    //     let findData = await userDataRepo.findOneBy({ id: Equal(id) });
-    //     let newData = { ...findData, ...data };
-    //     return userDataRepo.save(newData);
-    // };
-
-    // async fetchDistrictAssigned(data) {
-    //     const { DistrictCode, ListType } = data;
-    //     return await assignedDataRepo.find({ where: { DistrictCode: Equal(DistrictCode), ListType: Equal(ListType) } });
-    // }
-    // async fetchTalukAssigned(data) {
-    //     const { DistrictCode, TalukCode, ListType } = data;
-    //     return await assignedDataRepo.createQueryBuilder('s')
-    //     .select(["s.TalukOfficerName as Name", "s.TalukOfficerMobile as Mobile", "s.id as id", "s.AssigningType as AssigningType"])
-    //     .where("s.DistrictCode= :dcode and s.TalukCode= :tcode and s.ListType= :list", { dcode: DistrictCode, tcode: TalukCode, list: ListType })
-    //     .getRawMany();
-    // }
-    // async fetchGpAssigned(data) {
-    //     const { TalukCode, GpOrWard, DistrictCode, ListType } = data;
-    //     return await assignedDataRepo.createQueryBuilder('s')
-    //     .select(["s.GpOfficerName as Name", "s.GpOfficerMobile as Mobile", "s.id as id", "s.AssigningType as AssigningType"])
-    //     .where("s.DistrictCode= :dcode and s.TalukCode= :tcode and s.GpOrWard= :gpcode and s.ListType= :list", { dcode: DistrictCode, tcode: TalukCode, gpcode: GpOrWard, list: ListType })
-    //     .getRawMany();
-    // };
-    // async fetchSurveyorData(data) {
-    //     const { TalukCode, GpOrWard, DistrictCode, VillageCode } = data;
-    //     return await userDataRepo.createQueryBuilder('s')
-    //     .select(["s.Name as Name", "s.Mobile as Mobile", "s.id as id", "s.Role as Role"])
-    //     .where("s.DistrictCode= :dcode and s.TalukCode= :tcode and s.GpOrWard= :gpcode and s.VillageCode= :vcode", 
-    //     { dcode: DistrictCode, tcode: TalukCode, gpcode: GpOrWard, vcode: VillageCode })
-    //     .getRawMany();
-    // };
 
     async fetchDistrictAssigned(data) {
         const { DistrictCode, ListType } = data;
@@ -198,33 +146,6 @@ export class AdminRepo {
        return await AppDataSource.query(query, [GpCode, GpCode, GpCode, DistrictCode, TalukCode, VillageCode]);
     };
 
-    async addUserInMaster(data) {
-        const { id } = data;
-        let findData = await userDataRepo.findOneBy({ id: Equal(id) });
-        let newData = { ...findData, ...data };
-        return userDataRepo.save(newData);
-    };
-
-    // async findRoleHierarchy(data) {
-    //     const { id } = data;
-    //     let findData = await roleHierarchyRepo.findOneBy({ id: Equal(id) });
-    //     let newData = { ...findData, ...data };
-    //     return roleHierarchyRepo.save(newData);
-    // };
-
-    // async findRoles(data) {
-    //     const { id } = data;
-    //     let findData = await rolesRepo.findOneBy({ id: Equal(id) });
-    //     let newData = { ...findData, ...data };
-    //     return rolesRepo.save(newData);
-    // };
-
-    // async findAccess(data) {
-    //     const { id } = data;
-    //     let findData = await dataAccessRepo.findOneBy({ id: Equal(id) });
-    //     let newData = { ...findData, ...data };
-    //     return dataAccessRepo.save(newData);
-    // };
     async findRoleHierarchy(data) {
         return await roleHierarchyRepo.find();
     };

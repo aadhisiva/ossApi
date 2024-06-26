@@ -49,23 +49,41 @@ export class UserRepo {
 
   async getUsersList(Mobile) {
     // const { Mobile } = data;
-    return await userDataRepo.find({
-        where: {Mobile: Equal(Mobile)},
-        select: ["UserId", "GpOrWard", "Name", "Type"],
-    });
-    // console.log("adfkhjsgvdg", data)
-    // return await userDataRepo.createQueryBuilder('oss').select(['oss.UserId as UserId', 'oss.GpOrWard as GpOrWard', 'oss.Name as Name', 'oss.Type as Type'])
-    //   .where("oss.Mobile = :Mobile", { Mobile: Mobile })
-    //   .getRawMany()
-  }
+    const userQuery = userDataRepo.createQueryBuilder("ad");
+    const subQueryAlias = 'mdSubQuery';
+    const subQuery = userQuery
+    .subQuery()
+    .select([
+        'DISTINCT md.DistrictCode AS DistrictCode',
+        'md.TalukCode AS TalukCode',
+        'md.GramPanchayatCode AS GramPanchayatCode',
+        'md.VillageCode AS VillageCode',
+        'md.VillageName AS VillageName'
+    ])
+    .from(MasterData, 'md')
+    .getQuery();
+    
+    const results = await userQuery
+        .select([
+            'ad.Mobile',
+            'ad.Type',
+            `${subQueryAlias}.VillageCode`,
+            'ad.UserId'
+        ])
+        .leftJoin(`(${subQuery})`, subQueryAlias, `${subQueryAlias}.DistrictCode = ad.DistrictCode AND ${subQueryAlias}.TalukCode = ad.TalukCode AND ${subQueryAlias}.GramPanchayatCode = ad.GpOrWard AND ${subQueryAlias}.VillageCode = ad.VillageCode`)
+        .where('ad.Mobile = :Mobile', { Mobile })
+        .getRawMany();
+
+    return results;
+  };
 
   async addUser(data) {
     return await userDataRepo.save(data);
   };
 
   async saveDataInStudentAndSchoolAsSats(data) {
-    let findData = await studentAndSchoolRepo.findOneBy({StudentId: Equal(data?.StudentId)});
-    let newData = {...findData, ...data};
+    let findData = await studentAndSchoolRepo.findOneBy({ StudentId: Equal(data?.StudentId) });
+    let newData = { ...findData, ...data };
     return await studentAndSchoolRepo.save(newData);
   }
 
@@ -77,46 +95,46 @@ export class UserRepo {
   };
 
   async getKutumbaData(rc) {
-    let findData = await kutumbaRepo.find({ where : {RC_NUMBER: Equal(rc) }});
+    let findData = await kutumbaRepo.find({ where: { RC_NUMBER: Equal(rc) } });
     return findData;
   };
 
   async getPendingCounts(data) {
-    let findData = await ossDataRepo.count({ where : {UserId: Equal(data?.UserId), Status: Equal("Pending")}});
+    let findData = await ossDataRepo.count({ where: { UserId: Equal(data?.UserId), Status: Equal("Pending") } });
     return findData;
   };
 
   async checkRcDeatils(rc) {
-    let fetchKutumba = await kutumbaRepo.find({where:{RC_NUMBER: Equal(rc)}});
-    let fetchOss = await ossDataRepo.find({ where : {RCNumber: Equal(rc)}});
-    return {fetchKutumba, fetchOss};
+    let fetchKutumba = await kutumbaRepo.find({ where: { RC_NUMBER: Equal(rc) } });
+    let fetchOss = await ossDataRepo.find({ where: { RCNumber: Equal(rc) } });
+    return { fetchKutumba, fetchOss };
   };
 
   async checkAadharSurveyData(aadhar) {
-    let fetchOssData = await ossDataRepo.findOneBy({ParentAadhar: aadhar});
+    let fetchOssData = await ossDataRepo.findOneBy({ ParentAadhar: aadhar });
     return fetchOssData;
   };
 
   async getListWise(data) {
-    const { UserId, Status, PageNo=1, PageSize=10, searchTerm } = data;
-    let totalData =await ossDataRepo.createQueryBuilder('s')
-    // .innerJoin(UserData, 'ud', 's.UserId = ud.UserId')
-    // .innerJoin(MasterData, 'md', 'ud.TalukCode = md.TalukCode')x`x`
-    .select(['s.StudentName as StudentName', 's.Status as Status', 's.SurveyMode as SurveyMode','s.RCNumber as RCNumber',
+    const { UserId, Status, PageNo = 1, PageSize = 10, searchTerm } = data;
+    let totalData = await ossDataRepo.createQueryBuilder('s')
+      // .innerJoin(UserData, 'ud', 's.UserId = ud.UserId')
+      // .innerJoin(MasterData, 'md', 'ud.TalukCode = md.TalukCode')x`x`
+      .select(['s.StudentName as StudentName', 's.Status as Status', 's.SurveyMode as SurveyMode', 's.RCNumber as RCNumber',
         's.StudentId as StudentId', 's.StudentAadharHash as StudentAadharHash', 's.StudentGender as StudentGender'
-      , 's.ParentName as ParentName', 's.StudentNotGoing as StudentNotGoing', 's.ParentMobile as ParentMobile', 's.id as id'])
-    .where("s.UserId = :id and s.Status = :status", { id: UserId, status: Status })
-    .andWhere(new Brackets(qb => {
-      qb.where("s.StudentName like :term", { term: `%${searchTerm}%` })
-      .orWhere("s.StudentId like :term", { term: `%${searchTerm}%` })
-      .orWhere("s.StudentAadharHash like :term", { term: `%${searchTerm}%` })
-      .orWhere("s.RCNumber like :term", { term: `%${searchTerm}%` })
-      .orWhere("s.SurveyMode like :term", { term: `%${searchTerm}%` })
-    }))
-    .orderBy('s.CreatedDate', "DESC")
-    .skip(+((PageNo - 1) * PageSize))
-    .take(+PageSize)
-    .getRawMany();
+        , 's.ParentName as ParentName', 's.StudentNotGoing as StudentNotGoing', 's.ParentMobile as ParentMobile', 's.id as id'])
+      .where("s.UserId = :id and s.Status = :status", { id: UserId, status: Status })
+      .andWhere(new Brackets(qb => {
+        qb.where("s.StudentName like :term", { term: `%${searchTerm}%` })
+          .orWhere("s.StudentId like :term", { term: `%${searchTerm}%` })
+          .orWhere("s.StudentAadharHash like :term", { term: `%${searchTerm}%` })
+          .orWhere("s.RCNumber like :term", { term: `%${searchTerm}%` })
+          .orWhere("s.SurveyMode like :term", { term: `%${searchTerm}%` })
+      }))
+      .orderBy('s.CreatedDate', "DESC")
+      .skip(+((PageNo - 1) * PageSize))
+      .take(+PageSize)
+      .getRawMany();
     return {
       totalCount: totalData.length,
       PageNo,
@@ -126,13 +144,13 @@ export class UserRepo {
   };
 
   async getCompletedCounts(data) {
-    let findData = await ossDataRepo.count({ where : {UserId: Equal(data?.UserId), Status: "Completed"}});
+    let findData = await ossDataRepo.count({ where: { UserId: Equal(data?.UserId), Status: "Completed" } });
     return findData;
   };
 
   async getEachList(data) {
     const { id } = data;
-    let findData = await ossDataRepo.findOneBy({id: Equal(id)});
+    let findData = await ossDataRepo.findOneBy({ id: Equal(id) });
     return findData;
   };
 
@@ -147,16 +165,16 @@ export class UserRepo {
   };
 
   async saveSurveyWithSats(data) {
-    const {StudentId} = data;
-    let findData = await ossDataRepo.findOneBy({StudentId: Equal(StudentId)});
-    let newData = {...findData, ...data};
+    const { StudentId } = data;
+    let findData = await ossDataRepo.findOneBy({ StudentId: Equal(StudentId) });
+    let newData = { ...findData, ...data };
     return await ossDataRepo.save(newData);
   };
 
   async saveSurveyWithRcAndMember(data) {
     const { StudentMemberId, RCNumber } = data;
-    let findData = await ossDataRepo.findOneBy({StudentMemberId: Equal(StudentMemberId), RCNumber: Equal(RCNumber)});
-    let newData = {...findData, ...data};
+    let findData = await ossDataRepo.findOneBy({ StudentMemberId: Equal(StudentMemberId), RCNumber: Equal(RCNumber) });
+    let newData = { ...findData, ...data };
     return await ossDataRepo.save(newData);
   };
 
@@ -169,7 +187,7 @@ export class UserRepo {
   };
 
   async fecthMobileBasedData(no) {
-    return await ossDataRepo.find({ where:{ ParentMobile: Equal(no) }});
+    return await ossDataRepo.find({ where: { ParentMobile: Equal(no) } });
   };
 
   async checkMemberId(memnerId, rc) {
@@ -177,7 +195,7 @@ export class UserRepo {
   };
 
   async checkRcInHouseHold(data) {
-    const {RcNumber, MemberId} = data;
+    const { RcNumber, MemberId } = data;
     return await houseHoldAndLibraryRepo.findOneBy({ RcNumber: Equal(RcNumber), MemberId: Equal(MemberId) });
   };
 

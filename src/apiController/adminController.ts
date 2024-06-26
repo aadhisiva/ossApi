@@ -28,26 +28,6 @@ adminRouter.post("/sendOtpAndCheckRole", async (req, res) => {
     }
 });
 
-// adminRouter.post("/assignMentProcess", async (req, res) => {
-//     try {
-//         let getBody = req.body;
-//         let result = await adminServices.assignMentProcess(getBody);
-//         return await webAppResponse(res, result, "", "assignMentProcess", WEBMESSAGES.UPDATE, "", "role");
-//     } catch (error) {
-//         return await webAppResponse(res, error);
-//     }
-// });
-
-// adminRouter.post("/getAllWithCode", async (req, res) => {
-//     try {
-//         let getBody = req.body;
-//         let result = await adminServices.getAllWithCode(getBody);
-//         return await webAppResponse(res, result, "", "getAllWithCode", WEBMESSAGES.UPDATE, "", "role");
-//     } catch (error) {
-//         return await webAppResponse(res, error);
-//     }
-// });
-
 adminRouter.post("/getAllWithCode", async (req, res) => {
     try {
         let getBody = req.body;
