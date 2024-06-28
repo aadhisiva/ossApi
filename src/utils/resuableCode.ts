@@ -192,3 +192,26 @@ export const expandCodeParameters = (type, DataType, codes, TypeOfData) => {
   slicedData.unshift(TypeOfData);
  return slicedData;
 };
+// convert kutumba decryptData readable formate
+export const expandAndArranageParameters = (type, codes, TypeOfData) => {
+ let getLength = codes.length;
+ let newArray = ['','','','','','','','','','','',''];
+ let slicedData = newArray.slice(getLength+2);
+ for(let i=0; i < getLength; i++){
+  slicedData.unshift(codes[i]);
+  };
+  slicedData.unshift(type);
+  slicedData.unshift(TypeOfData);
+ return slicedData;
+};
+// convert kutumba decryptData readable formate
+export const expandForMasterData = (TypeOfData, codes) => {
+ let getLength = codes.length;
+ let newArray = ['','','','','','','','','','',''];
+ let slicedData = newArray.slice(getLength+1);
+ for(let i=0; i < getLength; i++){
+  slicedData.unshift(codes[i]);
+  };
+  slicedData.unshift(TypeOfData);
+ return slicedData;
+};

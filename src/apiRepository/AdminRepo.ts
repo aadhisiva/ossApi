@@ -1,8 +1,8 @@
 import { Service } from 'typedi';
 import { AppDataSource } from '../db/config';
 import { Admin, Code, Equal } from 'typeorm';
-import { AssigningMasters, DataAccess, RoleHierarchy, Roles, UserData } from '../entities';
-import { expandCodeParameters } from '../utils/resuableCode';
+import { AssigningMasters, DataAccess, MasterData, OssSurveyData, RoleHierarchy, Roles, UserData } from '../entities';
+import { expandAndArranageParameters, expandCodeParameters, expandForMasterData } from '../utils/resuableCode';
 
 const adminRepo = AppDataSource.getRepository(Admin);
 const assigningMastersRepo = AppDataSource.getRepository(AssigningMasters);
@@ -10,6 +10,8 @@ const roleHierarchyRepo = AppDataSource.getRepository(RoleHierarchy);
 const rolesRepo = AppDataSource.getRepository(Roles);
 const dataAccessRepo = AppDataSource.getRepository(DataAccess);
 const userDataRepo = AppDataSource.getRepository(UserData);
+const ossDataRepo = AppDataSource.getRepository(OssSurveyData);
+
 @Service()
 export class AdminRepo {
 
@@ -196,7 +198,6 @@ export class AdminRepo {
     };
 
     async deleteRoles(id) {
-        console.log("if", id)
         return await rolesRepo
             .createQueryBuilder()
             .delete()
@@ -211,4 +212,59 @@ export class AdminRepo {
             .where("id= :id", { id: id })
             .execute()
     };
+
+    async getCounts(data) {
+        const { LoginType, Codes = [], TypeOfData } = data;
+        let query = `execute getReportsRelatedCounts @0,@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11`;
+        let expandCodesParams = expandAndArranageParameters(LoginType, Codes, TypeOfData);
+        let res = await AppDataSource.query(query, expandCodesParams);
+        return res;
+    };
+
+    async getRelatedWise(data) {
+        const { LoginType, Codes = [], TypeOfData } = data;
+        let query = `execute getReportsRelatedWise @0,@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11`;
+        let expandCodesParams = expandAndArranageParameters(LoginType, Codes, TypeOfData);
+        return await AppDataSource.query(query, expandCodesParams);
+    };
+
+    async approve(data) {
+        let findData = await ossDataRepo.findOneBy({ id: Equal(data?.id) });
+        let newData = {...findData, ...{ApproveBy: `${data?.ApproveBy}`}};
+        return await ossDataRepo.save(newData);
+      };
+
+     async fetchDataDistricts(data){
+        const { Type } = data;
+        let query = 'select distinct DistrictCode value, DistrictName name from MasterData where Type=@0';
+        return AppDataSource.getRepository(MasterData).query(query), [Type];
+     }
+
+     async fetchDataTaluks(data){
+        const { Codes, Type} = data;
+        let query = `select distinct TalukCode value, TalukName name from MasterData where Type=@0 and (DistrictCode=@1 or DistrictCode=@2 or DistrictCode=@3 or
+        DistrictCode=@4 or DistrictCode=@5 or DistrictCode=@6 or DistrictCode=@7 or DistrictCode=@8 or DistrictCode=@9 or DistrictCode=@10 or DistrictCode=@11)`; 
+        let expandCodesParams = expandForMasterData(Type, Codes);
+        return AppDataSource.getRepository(MasterData).query(query, expandCodesParams);
+     }
+
+     async fetchDataGps(data){
+        const { Codes, Type} = data;
+        let query = `select distinct GramPanchayatCode value, GramPanchayatName name from MasterData where Type=@0 and (TalukCode=@1 or TalukCode=@2 or TalukCode=@3 or
+        TalukCode=@4 or TalukCode=@5 or TalukCode=@6 or TalukCode=@7 or TalukCode=@8 or TalukCode=@9 or TalukCode=@10 or TalukCode=@11)`;
+        let expandCodesParams = expandForMasterData(Type, Codes);
+        return AppDataSource.getRepository(MasterData).query(query, expandCodesParams);
+     }
+
+     async fetchDataVillages(data){
+        const { Codes, Type} = data;
+        let query = `select distinct VillageCode value, VillageName name from MasterData where Type=@0 and DistrictCode=@1 and (TalukCode=@1 or TalukCode=@2 or TalukCode=@3 or
+        TalukCode=@4 or TalukCode=@5 or TalukCode=@6 or TalukCode=@7 or TalukCode=@8 or TalukCode=@9 or TalukCode=@10 or TalukCode=@11)`;
+        let expandCodesParams = expandForMasterData(Type, Codes);
+        return AppDataSource.getRepository(MasterData).query(query, expandCodesParams);
+     }
+// fetchDataDistricts
+// fetchDataTaluks
+// fetchDataGps
+// fetchDataVillages
 };

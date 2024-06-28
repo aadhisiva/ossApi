@@ -96,6 +96,9 @@ import {
     @Column({ type: 'nvarchar', default: null, length: '30' })
     MBR_GENDER: string;
   
+    @Column({ type: 'nvarchar', default: null, length: 300 })
+    MBR_HASH_AADHAR: string;
+  
     @Column({ type: 'nvarchar', default: null, length: '40' })
     MEMBER_NAME_KAN: string;
   

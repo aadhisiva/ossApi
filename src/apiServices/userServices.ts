@@ -192,9 +192,17 @@ export class UserServices {
         }
     }
 
+    async checkSats(data) {
+        const { type, rollNo } = data;
+        if (!type || !rollNo)
+            return { code: 400, message: "Type and RollNo not provided" };
+        let getUserDetails = await getStudentDetailsWithTypeWise(data);
+        return getUserDetails;
+    }
+
     async getKutumbaData(data) {
-        const { rc } = data;
-        if (!rc) return { code: 400, message: "Provided RcNo." };
+        const { rc, aadhar } = data;
+        if(rc) {
         let getUserDetails = await fetchDataFromKutumba(data);
         if (!Array.isArray(getUserDetails))
             return { code: 422, message: getUserDetails?.StatusText };
@@ -202,6 +210,20 @@ export class UserServices {
             await this.userRepo.saveKutumbaData(getUserDetails[i]);
         };
         return await this.userRepo.getKutumbaData(rc);
+    } else {
+        let getUserDetails = await fetchDataFromKutumba(data);
+        if (!Array.isArray(getUserDetails))
+            return { code: 422, message: getUserDetails?.StatusText };
+        for (let i = 0; i < getUserDetails.length; i++) {
+            await this.userRepo.saveKutumbaData(getUserDetails[i]);
+        };
+        return getUserDetails;
+    }
+    };
+
+    async checkKutumba(data) {
+        let getUserDetails = await fetchDataFromKutumba(data);
+        return getUserDetails;
     };
 
     async getDataModesWise(data) {
@@ -278,7 +300,7 @@ export class UserServices {
     };
 
     async getEachList(data) {
-        if (!data?.id) return { code: 400, message: "Provided Status" };
+        if (!data?.id) return { code: 400, message: "Provided Id" };
         let getList = await this.userRepo.getEachList(data);
         return getList;
     };

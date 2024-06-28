@@ -140,6 +140,47 @@ adminRouter.post("/deleteRoles", async (req, res) => {
     }
 });
 
+adminRouter.post("/getCounts", async (req, res) => {
+    try {
+        let getBody = req.body;
+        let result = await adminServices.getCounts(getBody);
+        return await webAppResponse(res, result, "", "getCounts", WEBMESSAGES.UPDATE, "", "role");
+    } catch (error) {
+        return await webAppResponse(res, error);
+    }
+});
+
+adminRouter.post("/getRelatedWise", async (req, res) => {
+    try {
+        let getBody = req.body;
+        let result = await adminServices.getRelatedWise(getBody);
+        return await webAppResponse(res, result, "", "getRelatedWise", WEBMESSAGES.UPDATE, "", "role");
+    } catch (error) {
+        return await webAppResponse(res, error);
+    }
+});
+
+adminRouter.post('/approve', async (req, res) => {
+    try {
+        let body = {...req.body, ...{UserId: req?.headers?.userid}};
+        let result = await adminServices.approve(body);
+        return await webAppResponse(res, result, "", "approve", WEBMESSAGES.UPDATE, "", "role");
+    } catch (error) {
+        return await webAppResponse(res, error);
+    }
+});
+
+adminRouter.post('/getMasters', async (req, res) => {
+    try {
+        let body = {...req.body, ...{UserId: req?.headers?.userid}};
+        let result = await adminServices.getMasters(body);
+        return await webAppResponse(res, result, "", "approve", WEBMESSAGES.UPDATE, "", "role");
+    } catch (error) {
+        return await webAppResponse(res, error);
+    }
+});
+
+
 export {
     adminRouter
 };

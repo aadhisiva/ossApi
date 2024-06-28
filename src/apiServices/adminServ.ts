@@ -198,4 +198,33 @@ export class AdminServices {
             return await this.adminRepo.deleteRoles(id);
         }
     };
-};
+
+    async getCounts(data) {
+        return await this.adminRepo.getCounts(data);
+    };
+
+    async getRelatedWise(data) {
+       return await this.adminRepo.getRelatedWise(data);
+    };
+
+    async approve(data) {
+        if (!data?.id) return { code: 400, message: "Provided id" };
+        let getList = await this.adminRepo.approve(data);
+        return getList;
+    };
+
+    async getMasters(data) {
+        const { DataType } = data;
+        if(DataType == 1){
+           return await this.adminRepo.fetchDataDistricts(data); 
+        } else if(DataType == 2){
+           return await this.adminRepo.fetchDataTaluks(data); 
+        } else if(DataType == 3){
+            return await this.adminRepo.fetchDataGps(data); 
+         } else if(DataType == 4){
+            return await this.adminRepo.fetchDataVillages(data); 
+         } else {
+            return [];
+         }
+    };
+};  

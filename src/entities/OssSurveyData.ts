@@ -129,6 +129,9 @@ export class OssSurveyData {
   @Column({ type: 'nvarchar', default: null, length: '30' })
   SurveyMode: string;
 
+  @Column({ type: 'nvarchar', default: null, length: 100 })
+  ApproveBy: string;
+
   @CreateDateColumn()
   CreatedDate: Date;
 

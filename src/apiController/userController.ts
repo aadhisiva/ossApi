@@ -5,8 +5,6 @@ import { mobileAppResponse } from '../utils/errorHandling';
 import { getRoleAndUserId } from '../utils/resuableCode';
 import { MOBILE_MESSAGES } from '../utils/constants';
 import { authTokenAndVersion, authVersion } from '../utils/middlewares';
-// import msgsData from "../../dummy.js";
-// import { dummyData } from "../../sampleJson";
 
 
 const userRouter = express.Router()
@@ -55,7 +53,36 @@ userRouter.post('/getChildDataWithSatsService', authTokenAndVersion, async (req,
     }
 });
 
+userRouter.post('/checkSats', async (req, res) => {
+    try {
+        let body = {...req.body, ...{UserId: req?.headers?.userid}};
+        let result = await userServices.checkSats(body);
+        return mobileAppResponse(res, result, body, getRoleAndUserId(req, MOBILE_MESSAGES.GET_CHILD_DATA));
+    } catch (error) {
+        return mobileAppResponse(res, error);
+    }
+});
+
 /* ********************************** Kutumba api **************************************** */
+
+userRouter.post('/getKutumbaData', authTokenAndVersion, async (req, res) => {
+    try {
+        let body = {...req.body, ...req.headers};
+        let result = await userServices.getKutumbaData(body);
+        return mobileAppResponse(res, result, body, getRoleAndUserId(req, MOBILE_MESSAGES.GET_KUTUMBA_DATA));
+    } catch (error) {
+        return mobileAppResponse(res, error);
+    }
+});
+userRouter.post('/checkKutumba', async (req, res) => {
+    try {
+        let body = {...req.body, ...req.headers};
+        let result = await userServices.checkKutumba(body);
+        res.send(result);
+    } catch (error) {
+        return mobileAppResponse(res, error);
+    }
+});
 
 userRouter.post('/getKutumbaData', authTokenAndVersion, async (req, res) => {
     try {

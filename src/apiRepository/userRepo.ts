@@ -48,7 +48,6 @@ export class UserRepo {
   }
 
   async getUsersList(Mobile) {
-    // const { Mobile } = data;
     const userQuery = userDataRepo.createQueryBuilder("ad");
     const subQueryAlias = 'mdSubQuery';
     const subQuery = userQuery
@@ -65,10 +64,10 @@ export class UserRepo {
     
     const results = await userQuery
         .select([
-            'ad.Mobile',
-            'ad.Type',
-            `${subQueryAlias}.VillageCode`,
-            'ad.UserId'
+            'ad.Mobile as Mobile',
+            'ad.Type as Type',
+            `${subQueryAlias}.VillageName as VillageName`,
+            'ad.UserId as UserId'
         ])
         .leftJoin(`(${subQuery})`, subQueryAlias, `${subQueryAlias}.DistrictCode = ad.DistrictCode AND ${subQueryAlias}.TalukCode = ad.TalukCode AND ${subQueryAlias}.GramPanchayatCode = ad.GpOrWard AND ${subQueryAlias}.VillageCode = ad.VillageCode`)
         .where('ad.Mobile = :Mobile', { Mobile })
@@ -210,4 +209,5 @@ export class UserRepo {
   async checkSatsInHouseHold(no) {
     return await houseHoldAndLibraryRepo.findOneBy({ StudentId: Equal(no) });
   };
+
 }
