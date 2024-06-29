@@ -318,7 +318,7 @@ export class UserServices {
 
         if (SurveyMode === "Ration") {
             if (!RCNumber)
-                return { code: 400, message: "Provide RcNumber." };
+                return { code: 400, message: "Provide RCNumber." };
             if (!StudentMemberId)
                 return { code: 400, message: "Provided StudentMemberId." };
             if (StudentMemberId) {

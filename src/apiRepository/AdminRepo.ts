@@ -236,35 +236,38 @@ export class AdminRepo {
 
      async fetchDataDistricts(data){
         const { Type } = data;
-        let query = 'select distinct DistrictCode value, DistrictName name from MasterData where Type=@0';
-        return AppDataSource.getRepository(MasterData).query(query), [Type];
+        let query = 'select distinct DistrictCode as code, DistrictName as name from MasterData where Type=@0';
+        return await AppDataSource.query(query, [Type]);
      }
 
      async fetchDataTaluks(data){
         const { Codes, Type} = data;
-        let query = `select distinct TalukCode value, TalukName name from MasterData where Type=@0 and (DistrictCode=@1 or DistrictCode=@2 or DistrictCode=@3 or
-        DistrictCode=@4 or DistrictCode=@5 or DistrictCode=@6 or DistrictCode=@7 or DistrictCode=@8 or DistrictCode=@9 or DistrictCode=@10 or DistrictCode=@11)`; 
+        let query = `select distinct TalukCode code, TalukName name from MasterData where Type=@0 and (DistrictCode=@1 or DistrictCode=@2 or DistrictCode=@3 or
+        DistrictCode=@4 or DistrictCode=@5 or DistrictCode=@6 or DistrictCode=@7 or DistrictCode=@8 or DistrictCode=@9 or DistrictCode=@10)`; 
         let expandCodesParams = expandForMasterData(Type, Codes);
-        return AppDataSource.getRepository(MasterData).query(query, expandCodesParams);
+        return await AppDataSource.query(query, expandCodesParams);
      }
 
      async fetchDataGps(data){
         const { Codes, Type} = data;
-        let query = `select distinct GramPanchayatCode value, GramPanchayatName name from MasterData where Type=@0 and (TalukCode=@1 or TalukCode=@2 or TalukCode=@3 or
-        TalukCode=@4 or TalukCode=@5 or TalukCode=@6 or TalukCode=@7 or TalukCode=@8 or TalukCode=@9 or TalukCode=@10 or TalukCode=@11)`;
+        let query = `select distinct GramPanchayatCode code, GramPanchayatName name from MasterData where Type=@0 and (TalukCode=@1 or TalukCode=@2 or TalukCode=@3 or
+        TalukCode=@4 or TalukCode=@5 or TalukCode=@6 or TalukCode=@7 or TalukCode=@8 or TalukCode=@9 or TalukCode=@10)`;
         let expandCodesParams = expandForMasterData(Type, Codes);
-        return AppDataSource.getRepository(MasterData).query(query, expandCodesParams);
+        return await AppDataSource.query(query, expandCodesParams);
      }
 
      async fetchDataVillages(data){
         const { Codes, Type} = data;
-        let query = `select distinct VillageCode value, VillageName name from MasterData where Type=@0 and DistrictCode=@1 and (TalukCode=@1 or TalukCode=@2 or TalukCode=@3 or
-        TalukCode=@4 or TalukCode=@5 or TalukCode=@6 or TalukCode=@7 or TalukCode=@8 or TalukCode=@9 or TalukCode=@10 or TalukCode=@11)`;
+        let query = `select distinct VillageCode code, VillageName name from MasterData where Type=@0 and (GramPanchayatCode=@1 or GramPanchayatCode=@2 or GramPanchayatCode=@3 or
+        GramPanchayatCode=@4 or GramPanchayatCode=@5 or GramPanchayatCode=@6 or GramPanchayatCode=@7 or GramPanchayatCode=@8 or GramPanchayatCode=@9 or GramPanchayatCode=@10)`;
         let expandCodesParams = expandForMasterData(Type, Codes);
-        return AppDataSource.getRepository(MasterData).query(query, expandCodesParams);
+        return await AppDataSource.query(query, expandCodesParams);
      }
-// fetchDataDistricts
-// fetchDataTaluks
-// fetchDataGps
-// fetchDataVillages
+
+     async fetchSearchReports(data){
+        const { DataType, type, district, panchayat, taluk, village, fromData, toDate, mode, status} = data;
+        let query = `execute getsearchReports @0,@1,@2,@3,@4,@5,@6,@7,@8,@9`;
+        return await AppDataSource.query(query, [DataType, type, district, taluk, panchayat, village, mode, status, fromData, toDate]);
+     }
+
 };

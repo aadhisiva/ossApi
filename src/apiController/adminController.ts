@@ -144,7 +144,7 @@ adminRouter.post("/getCounts", async (req, res) => {
     try {
         let getBody = req.body;
         let result = await adminServices.getCounts(getBody);
-        return await webAppResponse(res, result, "", "getCounts", WEBMESSAGES.UPDATE, "", "role");
+        return await webAppResponse(res, result, "", "getCounts", WEBMESSAGES.GET_ALLDATA, "", "role");
     } catch (error) {
         return await webAppResponse(res, error);
     }
@@ -154,7 +154,7 @@ adminRouter.post("/getRelatedWise", async (req, res) => {
     try {
         let getBody = req.body;
         let result = await adminServices.getRelatedWise(getBody);
-        return await webAppResponse(res, result, "", "getRelatedWise", WEBMESSAGES.UPDATE, "", "role");
+        return await webAppResponse(res, result, "", "getRelatedWise", WEBMESSAGES.GET_ALLDATA, "", "role");
     } catch (error) {
         return await webAppResponse(res, error);
     }
@@ -174,7 +174,17 @@ adminRouter.post('/getMasters', async (req, res) => {
     try {
         let body = {...req.body, ...{UserId: req?.headers?.userid}};
         let result = await adminServices.getMasters(body);
-        return await webAppResponse(res, result, "", "approve", WEBMESSAGES.UPDATE, "", "role");
+        return await webAppResponse(res, result, "", "getMasters", WEBMESSAGES.GET_ALLDATA, "", "role");
+    } catch (error) {
+        return await webAppResponse(res, error);
+    }
+});
+
+adminRouter.post('/getSearchReports', async (req, res) => {
+    try {
+        let body = {...req.body, ...{UserId: req?.headers?.userid}};
+        let result = await adminServices.getSearchReports(body);
+        return await webAppResponse(res, result, "", "getSearchReports", WEBMESSAGES.GET_ALLDATA, "", "role");
     } catch (error) {
         return await webAppResponse(res, error);
     }

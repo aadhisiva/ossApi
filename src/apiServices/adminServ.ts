@@ -227,4 +227,8 @@ export class AdminServices {
             return [];
          }
     };
+
+    async getSearchReports(data) {
+        return await this.adminRepo.fetchSearchReports(data);
+    };
 };  
