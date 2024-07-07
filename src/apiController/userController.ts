@@ -153,6 +153,16 @@ userRouter.post('/saveOssSurveyForHousehold', authTokenAndVersion, async (req, r
     }
 });
 
+userRouter.post('/ekycService', async (req, res) => {
+    try {
+        let body = {...req.body};
+        let result = body;
+        return mobileAppResponse(res, result, body, getRoleAndUserId(req, MOBILE_MESSAGES.GET_KUTUMBA_DATA));
+    } catch (error) {
+        return mobileAppResponse(res, error);
+    }
+});
+
 
 export {
     userRouter

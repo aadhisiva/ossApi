@@ -82,12 +82,6 @@ export class OssSurveyData {
   StudentAadharHash: string;
 
   @Column({ type: 'nvarchar', default: null, length: '100' })
-  Category: string;
-
-  @Column({ type: 'nvarchar', default: null, length: '100' })
-  Standard: string;
-
-  @Column({ type: 'nvarchar', default: null, length: '100' })
   SchoolName: string;
 
   @Column({ type: 'nvarchar', default: null, length: '500' })
@@ -104,6 +98,12 @@ export class OssSurveyData {
 
   @Column({ type: 'nvarchar', default: null, length: '100' })
   StudentFinancial: string;
+
+  @Column({ type: 'nvarchar', default: null, length: '100' })
+  StudentMigratedDate: string;
+
+  @Column({ type: 'nvarchar', default: null, length: '100' })
+  StudentMigratedFrom: string;
 
   @Column({ type: 'nvarchar', default: null, length: '100' })
   StudentSocial: string;

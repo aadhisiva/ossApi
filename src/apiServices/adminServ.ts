@@ -23,14 +23,14 @@ export class AdminServices {
         if (!Mobile) return { code: 400, message: "Provide Mobile." };
         if (Mobile.length < 10 || Mobile.length > 10) return { code: 400, message: "Mobile Number length should be proper." };
         data.Otp = generateOTP(4);
-        data.Otp = '1111';
+        // data.Otp = '1111';
         let checkInAssigned = await this.adminRepo.checkRoleInAssigned(data);
         if (checkInAssigned?.length == 0) return { code: 422, message: "Data does't exists." };
-        // let sendMessage = await this.otpServices.sendOtpAsSingleSms(Mobile, data.Otp);
-        // await saveMobileOtps(Mobile, sendMessage?.otpMessage, sendMessage?.response, data?.UserId, data?.Otp);
-        // if (sendMessage.code !== 200) {
-        //     return { code: 422, message: RESPONSEMSG.OTP_FAILED };
-        // };
+        let sendMessage = await this.otpServices.sendOtpAsSingleSms(Mobile, data.Otp);
+        await saveMobileOtps(Mobile, sendMessage?.otpMessage, sendMessage?.response, data?.UserId, data?.Otp);
+        if (sendMessage.code !== 200) {
+            return { code: 422, message: RESPONSEMSG.OTP_FAILED };
+        };
         await this.adminRepo.updateLoginOtp(Mobile, data?.Otp);
         return {
             Otp: data?.Otp,
@@ -117,15 +117,15 @@ export class AdminServices {
         const { Mobile } = data;
         if (!Mobile) return { code: 400, message: "Provide Mobile." };
         if (Mobile.length < 10 || Mobile.length > 10) return { code: 400, message: "Mobile number length should be 10." };
-        // data.Otp = generateOTP(4);
-        data.Otp = '1111';
+        data.Otp = generateOTP(4);
+        // data.Otp = '1111';
         let checkInAssigned = await this.adminRepo.checkRolesWithMobile(data);
         if (checkInAssigned?.length == 0) return { code: 422, message: "Data does't exists." };
-        // let sendMessage = await this.otpServices.sendOtpAsSingleSms(Mobile, data.Otp);
-        // await saveMobileOtps(Mobile, sendMessage?.otpMessage, sendMessage?.response, data?.UserId, data?.Otp);
-        // if (sendMessage.code !== 200) {
-        //     return { code: 422, message: RESPONSEMSG.OTP_FAILED };
-        // };
+        let sendMessage = await this.otpServices.sendOtpAsSingleSms(Mobile, data.Otp);
+        await saveMobileOtps(Mobile, sendMessage?.otpMessage, sendMessage?.response, data?.UserId, data?.Otp);
+        if (sendMessage.code !== 200) {
+            return { code: 422, message: RESPONSEMSG.OTP_FAILED };
+        };
         await this.adminRepo.updateAssignedMasters(Mobile, data?.Otp);
         return {
             Otp: data?.Otp,
@@ -211,6 +211,16 @@ export class AdminServices {
         if (!data?.id) return { code: 400, message: "Provided id" };
         let getList = await this.adminRepo.approve(data);
         return getList;
+    };
+
+    async approveAll(data) {
+        console
+        if (data?.data?.length == 0) return { code: 400, message: "Provided Data(Id's)" };
+        for(let i = 0; i < data?.data?.length; i++){
+            let eachList = data?.data[i];
+            await this.adminRepo.approve({id: eachList, ApproveBy: data?.ApproveBy});
+        };
+        return [];
     };
 
     async getMasters(data) {

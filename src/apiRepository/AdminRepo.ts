@@ -143,9 +143,9 @@ export class AdminRepo {
     };
 
     async updateGpInMaster(data) {
-        const { DistrictCode, TalukCode, GpCode, VillageCode } = data;
+        const { DistrictCode, TalukCode, GpCode, GpName, VillageCode } = data;
        let query = 'update MasterData set GramPanchayatCode=@0, GramPanchayatLGDCode=@1, GramPanchayatName=@2 where DistrictCode=@3 and TalukCode=@4 and VillageCode=@5';
-       return await AppDataSource.query(query, [GpCode, GpCode, GpCode, DistrictCode, TalukCode, VillageCode]);
+       return await AppDataSource.query(query, [GpCode, GpCode, GpName, DistrictCode, TalukCode, VillageCode]);
     };
 
     async findRoleHierarchy(data) {

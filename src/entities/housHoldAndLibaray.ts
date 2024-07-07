@@ -13,7 +13,7 @@ export class HouseHoldAndLibrary {
     id: number;
 
     @Column({ default: null, type: 'nvarchar', length: "30" })
-    RcNumber: string;
+    RCNumber: string;
 
     @Column({ default: null, type: 'nvarchar', length: "50" })
     UserId: string;
@@ -49,9 +49,6 @@ export class HouseHoldAndLibrary {
     WallMaterial: string;
 
     @Column({ default: null, type: 'nvarchar', length: "100" })
-    ToiletAvailable: string;
-
-    @Column({ default: null, type: 'nvarchar', length: "100" })
     ToiletWorking: string;
 
     @Column({ default: null, type: 'nvarchar', length: "100" })
@@ -59,9 +56,6 @@ export class HouseHoldAndLibrary {
 
     @Column({ default: null, type: 'nvarchar', length: "100" })
     VillageLibrary: string;
-
-    @Column({ default: null, type: 'nvarchar', length: "100" })
-    LibraryGP: string;
 
     @Column({ default: null, type: 'nvarchar', length: "100" })
     AdultVisited: string;

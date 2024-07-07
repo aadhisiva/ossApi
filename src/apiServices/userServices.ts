@@ -116,27 +116,27 @@ export class UserServices {
         if (!Mobile) return { code: 400 };
         let version: any = await this.userRepo.getVersionOfApp();
         if (version?.code) return version;
-        // data.Otp = generateOTP(4);
-        data.Otp = "1111";
+        data.Otp = generateOTP(4);
+        // data.Otp = "1111";
         data.Token = generateRandomString(40);
         data.Version = version[0]?.Version;
         data.TokenExpirationTime = generateEOfTTime();
         let checkUserData = await this.userRepo.sendOtp(data);
         if (checkUserData?.code) return checkUserData;
-        // let sendSingleSms = await this.otpServices.sendOtpAsSingleSms(
-        //     Mobile,
-        //     data?.Otp
-        // );
-        // await saveMobileOtps(
-        //     Mobile,
-        //     sendSingleSms?.otpMessage,
-        //     sendSingleSms?.response,
-        //     data?.UserId,
-        //     data?.Otp
-        // );
-        // if (sendSingleSms.code !== 200) {
-        //     return { code: 422, message: RESPONSEMSG.OTP_FAILED };
-        // }
+        let sendSingleSms = await this.otpServices.sendOtpAsSingleSms(
+            Mobile,
+            data?.Otp
+        );
+        await saveMobileOtps(
+            Mobile,
+            sendSingleSms?.otpMessage,
+            sendSingleSms?.response,
+            data?.UserId,
+            data?.Otp
+        );
+        if (sendSingleSms.code !== 200) {
+            return { code: 422, message: RESPONSEMSG.OTP_FAILED };
+        }
         let getData = await this.userRepo.getUsersList(Mobile);
         return {
             Version: checkUserData?.Version,
@@ -202,23 +202,23 @@ export class UserServices {
 
     async getKutumbaData(data) {
         const { rc, aadhar } = data;
-        if(rc) {
-        let getUserDetails = await fetchDataFromKutumba(data);
-        if (!Array.isArray(getUserDetails))
-            return { code: 422, message: getUserDetails?.StatusText };
-        for (let i = 0; i < getUserDetails.length; i++) {
-            await this.userRepo.saveKutumbaData(getUserDetails[i]);
-        };
-        return await this.userRepo.getKutumbaData(rc);
-    } else {
-        let getUserDetails = await fetchDataFromKutumba(data);
-        if (!Array.isArray(getUserDetails))
-            return { code: 422, message: getUserDetails?.StatusText };
-        for (let i = 0; i < getUserDetails.length; i++) {
-            await this.userRepo.saveKutumbaData(getUserDetails[i]);
-        };
-        return getUserDetails;
-    }
+        if (rc) {
+            let getUserDetails = await fetchDataFromKutumba(data);
+            if (!Array.isArray(getUserDetails))
+                return { code: 422, message: getUserDetails?.StatusText };
+            for (let i = 0; i < getUserDetails.length; i++) {
+                await this.userRepo.saveKutumbaData(getUserDetails[i]);
+            };
+            return await this.userRepo.getKutumbaData(rc);
+        } else {
+            let getUserDetails = await fetchDataFromKutumba(data);
+            if (!Array.isArray(getUserDetails))
+                return { code: 422, message: getUserDetails?.StatusText };
+            for (let i = 0; i < getUserDetails.length; i++) {
+                await this.userRepo.saveKutumbaData(getUserDetails[i]);
+            };
+            return getUserDetails;
+        }
     };
 
     async checkKutumba(data) {
