@@ -185,6 +185,10 @@ export class UserRepo {
     return await ossDataRepo.findOneBy({ StudentId: Equal(id) });
   };
 
+  async fetchSurveyerData(id) {
+      return await userDataRepo.findOne({ where: {UserId: Equal(id) }, select: ["Name", "Mobile", "Role"]} );
+  };
+
   async fecthMobileBasedData(no) {
     return await ossDataRepo.find({ where: { ParentMobile: Equal(no) } });
   };
@@ -194,8 +198,8 @@ export class UserRepo {
   };
 
   async checkRcInHouseHold(data) {
-    const { RcNumber, MemberId } = data;
-    return await houseHoldAndLibraryRepo.findOneBy({ RcNumber: Equal(RcNumber), MemberId: Equal(MemberId) });
+    const { RCNumber, MemberId } = data;
+    return await houseHoldAndLibraryRepo.findOneBy({ RCNumber: Equal(RCNumber), MemberId: Equal(MemberId) });
   };
 
   async checkAadharInHouseHold(no) {
@@ -209,5 +213,40 @@ export class UserRepo {
   async checkSatsInHouseHold(no) {
     return await houseHoldAndLibraryRepo.findOneBy({ StudentId: Equal(no) });
   };
+
+  /* ************ load test apis *************  */
+  async sendOtpLD(data) {
+    return await userDataRepo.save(data);
+  };
+  async checkOtp(data) {
+    return await userDataRepo.findOneBy({Mobile: data?.Mobile});
+  };
+
+  async getRcData(rc) {
+    return await kutumbaRepo.findOneBy({RC_NUMBER: Equal(rc)});
+  };
+  async getAadharData(aadhar) {
+    return await kutumbaRepo.findOneBy({MBR_AADHAR_NO: Equal(aadhar)});
+  };
+
+  async saveKutumba(data) {
+    return await kutumbaRepo.save(data);
+  };
+
+  async geChildData(id) {
+    return await studentAndSchoolRepo.findOneBy({StudentId: Equal(id)});
+  };
+  // async geChildData(aadhar) {
+  //   return await kutumbaRepo.findOneBy({MBR_HASH_AADHAR: Equal(aadhar)});
+  // };
+
+  async saveChild(data) {
+    return await studentAndSchoolRepo.save(data);
+  };
+
+  async saveSurvey(data) {
+    return await ossDataRepo.save(data);
+  };
+
 
 }

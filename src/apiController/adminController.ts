@@ -170,6 +170,16 @@ adminRouter.post('/approve', async (req, res) => {
     }
 });
 
+adminRouter.post('/addRejectRemarks', async (req, res) => {
+    try {
+        let body = {...req.body, ...{UserId: req?.headers?.userid}};
+        let result = await adminServices.addRejectRemarks(body);
+        return await webAppResponse(res, result, "", "approve", WEBMESSAGES.UPDATE, "", "role");
+    } catch (error) {
+        return await webAppResponse(res, error);
+    }
+});
+
 adminRouter.post('/approveAll', async (req, res) => {
     try {
         let body = {...req.body, ...{UserId: req?.headers?.userid}};

@@ -84,7 +84,7 @@ export class AdminRepo {
     };
     async getMasterWithAssigned(data) {
         const { LoginType, Codes = [], DataType = "UnAssign", TypeOfData } = data;
-        let query = `execute getMasterWithAssigned @0,@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11,@12`;
+        let query = `execute getMasterWithAssigned @0,@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11,@12,@13,@14,@15,@16,@17,@18,@19,@20,@21,@22,@23,@24,@25,@26,@27,@29,@30,@31,@32,@33`;
         let expandCodesParams = expandCodeParameters(LoginType, DataType, Codes, TypeOfData);
         return await AppDataSource.query(query, expandCodesParams);
     }
@@ -163,7 +163,7 @@ export class AdminRepo {
         return await dataAccessRepo.createQueryBuilder('role')
             .leftJoinAndSelect(RoleHierarchy, 'rh', "rh.id = role.RoleId")
             .select(["role.RoleId as RoleId","role.id as id",  "role.District as District", 
-            "role.TalukorZone as TalukorZone","role.GpOrPhc as GpOrPhc", "rh.Role as Role","role.VllageOrWard as VllageOrWard",
+            "role.TalukorZone as TalukorZone","role.GpOrPhc as GpOrPhc", "rh.Role as Role","role.VllageOrWard as VllageOrWard", "role.Department as Department",
             "role.TypeOfData as TypeOfData"])
             .getRawMany();
     };
@@ -215,7 +215,7 @@ export class AdminRepo {
 
     async getCounts(data) {
         const { LoginType, Codes = [], TypeOfData } = data;
-        let query = `execute getReportsRelatedCounts @0,@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11`;
+        let query = `execute getReportsRelatedCounts @0,@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11,@12,@13,@14,@15,@16,@17,@18,@19,@20,@21,@22,@23,@24,@25,@26,@27,@29,@30,@31,@32,@33`;
         let expandCodesParams = expandAndArranageParameters(LoginType, Codes, TypeOfData);
         let res = await AppDataSource.query(query, expandCodesParams);
         return res;
@@ -223,7 +223,7 @@ export class AdminRepo {
 
     async getRelatedWise(data) {
         const { LoginType, Codes = [], TypeOfData } = data;
-        let query = `execute getReportsRelatedWise @0,@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11`;
+        let query = `execute getReportsRelatedWise @0,@1,@2,@3,@4,@5,@6,@7,@8,@9,@10,@11,@12,@13,@14,@15,@16,@17,@18,@19,@20,@21,@22,@23,@24,@25,@26,@27,@29,@30,@31,@32,@33`;
         let expandCodesParams = expandAndArranageParameters(LoginType, Codes, TypeOfData);
         return await AppDataSource.query(query, expandCodesParams);
     };
@@ -231,6 +231,12 @@ export class AdminRepo {
     async approve(data) {
         let findData = await ossDataRepo.findOneBy({ id: Equal(data?.id) });
         let newData = {...findData, ...{ApproveBy: `${data?.ApproveBy}`}};
+        return await ossDataRepo.save(newData);
+      };
+
+    async addRejectRemarks(data) {
+        let findData = await ossDataRepo.findOneBy({ id: Equal(data?.id) });
+        let newData = {...findData, ...{Remarks: `${data?.Remarks}`, ApproveBy: `${data?.ApproveBy}`}};
         return await ossDataRepo.save(newData);
       };
 
@@ -243,7 +249,11 @@ export class AdminRepo {
      async fetchDataTaluks(data){
         const { Codes, Type} = data;
         let query = `select distinct TalukCode code, TalukName name from MasterData where Type=@0 and (DistrictCode=@1 or DistrictCode=@2 or DistrictCode=@3 or
-        DistrictCode=@4 or DistrictCode=@5 or DistrictCode=@6 or DistrictCode=@7 or DistrictCode=@8 or DistrictCode=@9 or DistrictCode=@10)`; 
+        DistrictCode=@4 or DistrictCode=@5 or DistrictCode=@6 or DistrictCode=@7 or DistrictCode=@8 or DistrictCode=@9 or DistrictCode=@10 or
+        DistrictCode=@11 or DistrictCode=@12 or DistrictCode=@13 or DistrictCode=@14 or DistrictCode=@15 or DistrictCode=@16 or DistrictCode=@17 or
+        DistrictCode=@18 or DistrictCode=@19 or DistrictCode=@20 or DistrictCode=@21 or DistrictCode=@22 or DistrictCode=@23 or DistrictCode=@24 or
+        DistrictCode=@25 or DistrictCode=@26 or DistrictCode=@27 or DistrictCode=@28 or DistrictCode=@29 or DistrictCode=@30 or DistrictCode=@31 or
+        DistrictCode=@32 or DistrictCode=@33)`; 
         let expandCodesParams = expandForMasterData(Type, Codes);
         return await AppDataSource.query(query, expandCodesParams);
      }
@@ -251,7 +261,11 @@ export class AdminRepo {
      async fetchDataGps(data){
         const { Codes, Type} = data;
         let query = `select distinct GramPanchayatCode code, GramPanchayatName name from MasterData where Type=@0 and (TalukCode=@1 or TalukCode=@2 or TalukCode=@3 or
-        TalukCode=@4 or TalukCode=@5 or TalukCode=@6 or TalukCode=@7 or TalukCode=@8 or TalukCode=@9 or TalukCode=@10)`;
+        TalukCode=@4 or TalukCode=@5 or TalukCode=@6 or TalukCode=@7 or TalukCode=@8 or TalukCode=@9 or TalukCode=@10 or
+        TalukCode=@11 or TalukCode=@12 or TalukCode=@13 or TalukCode=@14 or TalukCode=@15 or TalukCode=@16 or TalukCode=@17 or
+        TalukCode=@18 or TalukCode=@19 or TalukCode=@20 or TalukCode=@21 or TalukCode=@22 or TalukCode=@23 or TalukCode=@24 or
+        TalukCode=@25 or TalukCode=@26 or TalukCode=@27 or TalukCode=@28 or TalukCode=@29 or TalukCode=@30 or TalukCode=@31 or
+        TalukCode=@32 or TalukCode=@33`;
         let expandCodesParams = expandForMasterData(Type, Codes);
         return await AppDataSource.query(query, expandCodesParams);
      }
@@ -259,7 +273,11 @@ export class AdminRepo {
      async fetchDataVillages(data){
         const { Codes, Type} = data;
         let query = `select distinct VillageCode code, VillageName name from MasterData where Type=@0 and (GramPanchayatCode=@1 or GramPanchayatCode=@2 or GramPanchayatCode=@3 or
-        GramPanchayatCode=@4 or GramPanchayatCode=@5 or GramPanchayatCode=@6 or GramPanchayatCode=@7 or GramPanchayatCode=@8 or GramPanchayatCode=@9 or GramPanchayatCode=@10)`;
+        GramPanchayatCode=@4 or GramPanchayatCode=@5 or GramPanchayatCode=@6 or GramPanchayatCode=@7 or GramPanchayatCode=@8 or GramPanchayatCode=@9 or GramPanchayatCode=@10 or
+        GramPanchayatCode=@11 or GramPanchayatCode=@12 or GramPanchayatCode=@13 or GramPanchayatCode=@14 or GramPanchayatCode=@15 or GramPanchayatCode=@16 or GramPanchayatCode=@17 or
+        GramPanchayatCode=@18 or GramPanchayatCode=@19 or GramPanchayatCode=@20 or GramPanchayatCode=@21 or GramPanchayatCode=@22 or GramPanchayatCode=@23 or GramPanchayatCode=@24 or
+        GramPanchayatCode=@25 or GramPanchayatCode=@26 or GramPanchayatCode=@27 or GramPanchayatCode=@28 or GramPanchayatCode=@29 or GramPanchayatCode=@30 or GramPanchayatCode=@31 or
+        GramPanchayatCode=@32 or GramPanchayatCode=@33)`;
         let expandCodesParams = expandForMasterData(Type, Codes);
         return await AppDataSource.query(query, expandCodesParams);
      }

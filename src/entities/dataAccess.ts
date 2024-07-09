@@ -32,6 +32,9 @@ import { RoleHierarchy } from "./rolesHierarchy";
   
     @Column({ default: null, type: 'nvarchar', length: 100})
     TypeOfData: Date;
+  
+    @Column({ default: null, type: 'nvarchar', length: 100})
+    Department: Date;
 
     @CreateDateColumn()
     CreatedDate: Date;

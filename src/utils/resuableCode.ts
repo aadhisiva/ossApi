@@ -182,7 +182,7 @@ export const DecryptStringFromEncrypt = (key, IV, cipherText) => {
 // convert kutumba decryptData readable formate
 export const expandCodeParameters = (type, DataType, codes, TypeOfData) => {
  let getLength = codes.length;
- let newArray = ['','','','','','','','','','','',''];
+ let newArray = ['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''];
  let slicedData = newArray.slice(getLength+2);
  for(let i=0; i < getLength; i++){
   slicedData.unshift(codes[i]);
@@ -195,7 +195,7 @@ export const expandCodeParameters = (type, DataType, codes, TypeOfData) => {
 // convert kutumba decryptData readable formate
 export const expandAndArranageParameters = (type, codes, TypeOfData) => {
  let getLength = codes.length;
- let newArray = ['','','','','','','','','','','',''];
+ let newArray = ['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''];
  let slicedData = newArray.slice(getLength+2);
  for(let i=0; i < getLength; i++){
   slicedData.unshift(codes[i]);
@@ -207,7 +207,7 @@ export const expandAndArranageParameters = (type, codes, TypeOfData) => {
 // convert kutumba decryptData readable formate
 export const expandForMasterData = (TypeOfData, codes) => {
  let getLength = codes.length;
- let newArray = ['','','','','','','','','','',''];
+ let newArray = ['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',''];
  let slicedData = newArray.slice(getLength+1);
  for(let i=0; i < getLength; i++){
   slicedData.unshift(codes[i]);

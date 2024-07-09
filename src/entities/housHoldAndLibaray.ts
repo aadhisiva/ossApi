@@ -69,6 +69,15 @@ export class HouseHoldAndLibrary {
     @Column({ default: null, type: 'nvarchar', length: "100" })
     VisitCountChild: string;
 
+    @Column({ type: 'nvarchar', default: null, length: 100 })
+    CreatedMobile: string;
+
+    @Column({ type: 'nvarchar', default: null, length: 100 })
+    CreatedRole: string;
+
+    @Column({ type: 'nvarchar', default: null, length: 100 })
+    CreatedName: string;
+
     @CreateDateColumn()
     createdDate: Date;
 

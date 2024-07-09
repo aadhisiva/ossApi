@@ -22,7 +22,7 @@ export const AppDataSource= new DataSource({
   database: process.env.PRO_DB_DATABASE,
   entities: entities(),
   logging: false,
-  synchronize: true,
+  synchronize: false,
   options: {
       encrypt: true,
       trustServerCertificate: true

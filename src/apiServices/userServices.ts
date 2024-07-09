@@ -2,6 +2,7 @@ import { Service } from "typedi";
 import { UserRepo } from "../apiRepository/userRepo";
 import {
     assignResToTableFormate,
+    convertAadharToSha256Hex,
     generateEOfTTime,
     generateOTP,
     generateRandomString,
@@ -173,7 +174,6 @@ export class UserServices {
             newFormateSavingData.DataType = "Sats";
             newFormateSavingData.UserId = data?.UserId;
             newFormateSavingData.StudentId = rollNo;
-            console.log(newFormateSavingData);
             return await this.userRepo.saveDataInStudentAndSchoolAsSats(
                 newFormateSavingData
             );
@@ -306,7 +306,11 @@ export class UserServices {
     };
 
     async saveOssSurvey(data) {
-        const { StudentMemberId, RCNumber, StudentId, SurveyMode, ParentMobile, ParentAadhar } = data;
+        const { StudentMemberId, RCNumber, StudentId, SurveyMode, ParentMobile, ParentAadhar, UserId } = data;
+        let fecthData = await this.userRepo.fetchSurveyerData(UserId)
+        data.CreatedRole = fecthData.Role;
+        data.CreatedMobile = fecthData.Mobile;
+        data.CreatedName = fecthData.Name;
         if (!SurveyMode)
             return { code: 400, message: "Provide SurveyMode." };
 
@@ -344,7 +348,11 @@ export class UserServices {
     };
 
     async saveOssSurveyForHousehold(data) {
-        const { MemberId, RCNumber, SurveyMode, ParentAadhar, ParentMobile, StudentId } = data;
+        const { MemberId, RCNumber, SurveyMode, ParentAadhar, ParentMobile, StudentId, UserId } = data;
+        let fecthData = await this.userRepo.fetchSurveyerData(UserId)
+        data.CreatedRole = fecthData.Role;
+        data.CreatedMobile = fecthData.Mobile;
+        data.CreatedName = fecthData.Name;
         if (SurveyMode === "Ration") {
             if (!RCNumber)
                 return { code: 400, message: "Provided RCNumber." };
@@ -367,7 +375,7 @@ export class UserServices {
             let checkStudentId = await this.userRepo.checkSatsInHouseHold(StudentId);
             if (checkStudentId)
                 return { code: 422, message: "Already Registered." };
-            return [];
+            return await this.userRepo.saveSurveyHouseHoldData(data);
         } else if (SurveyMode === "NoId") {
             if (!ParentMobile)
                 return { code: 400, message: "Provided ParentMobile." };
@@ -378,6 +386,68 @@ export class UserServices {
         } else {
             return [];
         }
+    }
+
+    // load test apis
+
+    async sendOtpLD(data) {
+        const {Mobile} = data;
+        if(!Mobile) return {code: 422, message: "Provide Mobile"};
+        data.Otp = generateOTP(4);
+        await this.userRepo.sendOtpLD(data);
+        return { ...data, ...{ Otp: data?.Otp } }
+    }
+
+    async verifyOtpLD(data) {
+        const {Mobile, Otp} = data;
+        if(!Mobile) return {code: 422, message: "Provide Mobile"};
+        if(!Otp) return {code: 422, message: "Provide Otp"};
+        let res = await this.userRepo.checkOtp(data);
+        let checkOtp = Otp == res.Otp;
+        if(!checkOtp) return {code:422, message: "Verify Falied"};
+        return {}; 
+    }
+
+    async getKutumbadataLT(data) {
+        const {rc, aadhar} = data;
+        if (rc) {
+            if(!rc) return {code: 422, message: "Provide rc"};
+            return await this.userRepo.getRcData(rc);
+        } else {
+            if(!aadhar) return {code: 422, message: "Provide aadhar"};
+            let no = aadhar
+            return await this.userRepo.getAadharData(no);
+        }
+    }
+
+    async saveKutumba(data) {
+        const {rc, aadhar} = data;
+        if (rc) {
+            data.RC_NUMBER = rc;
+            return await this.userRepo.saveKutumba(data);
+        } else {
+            data.MBR_AADHAR_NO = aadhar;
+            return await this.userRepo.saveKutumba(aadhar);
+        }
+    }
+
+    async getChilddata(data) {
+        const {type, rollNo} = data;
+        if(!rollNo) return {code: 422, message: "Provide rollNo"};
+        if(!type) return {code: 422, message: "Provide type"};
+        data.StudentId = rollNo;
+        return await this.userRepo.geChildData(data?.StudentId);
+    }
+
+    async saveChild(data) {
+        const {type, rollNo} = data;
+        if(!rollNo) return {code: 422, message: "Provide rollNo"};
+        if(!type) return {code: 422, message: "Provide type"};
+        data.StudentId = rollNo;
+        return await this.userRepo.saveChild(data);
+    }
+    async saveSurvey(data) {
+        return await this.userRepo.saveSurvey(data);
     }
 
 }

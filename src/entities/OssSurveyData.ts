@@ -67,7 +67,7 @@ export class OssSurveyData {
   StudentDob: string;
   
   @Column({ type: 'nvarchar', default: null, length: '100' })
-  StudentMaskedAadhar: string;
+  StudentMigrated: string;
   
   @Column({ type: 'nvarchar', default: null, length: '100' })
   StudentGender: string;
@@ -131,6 +131,18 @@ export class OssSurveyData {
 
   @Column({ type: 'nvarchar', default: null, length: 100 })
   ApproveBy: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 100 })
+  Remarks: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 100 })
+  CreatedMobile: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 100 })
+  CreatedRole: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 100 })
+  CreatedName: string;
 
   @CreateDateColumn()
   CreatedDate: Date;

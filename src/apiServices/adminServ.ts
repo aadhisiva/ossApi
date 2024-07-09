@@ -213,6 +213,12 @@ export class AdminServices {
         return getList;
     };
 
+    async addRejectRemarks(data) {
+        if (!data?.id) return { code: 400, message: "Provided id" };
+        let getList = await this.adminRepo.addRejectRemarks(data);
+        return getList;
+    };
+
     async approveAll(data) {
         console
         if (data?.data?.length == 0) return { code: 400, message: "Provided Data(Id's)" };
