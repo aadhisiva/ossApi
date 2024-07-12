@@ -132,6 +132,15 @@ userRouter.post('/getEachList', authTokenAndVersion, async (req, res) => {
         return mobileAppResponse(res, error);
     }
 });
+userRouter.post('/otpValidation', authTokenAndVersion, async (req, res) => {
+    try {
+        let body = { ...req.body, ...{ UserId: req?.headers?.userid } };
+        let result = await userServices.otpValidation(body);
+        return mobileAppResponse(res, result, body, getRoleAndUserId(req, MOBILE_MESSAGES.GET_KUTUMBA_DATA));
+    } catch (error) {
+        return mobileAppResponse(res, error);
+    }
+});
 
 userRouter.post('/saveOssSurvey', authTokenAndVersion, async (req, res) => {
     try {

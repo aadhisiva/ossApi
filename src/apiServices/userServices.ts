@@ -305,6 +305,30 @@ export class UserServices {
         return getList;
     };
 
+    async otpValidation(data) {
+        const { Mobile, UserId } = data;
+        if (!Mobile) return { code: 400, message: "Provided Mobile" };
+        data.Otp = generateOTP(4);
+        let sendSingleSms = await this.otpServices.sendOtpAsSingleSms(
+            Mobile,
+            data?.Otp
+        );
+        await saveMobileOtps(
+            Mobile,
+            sendSingleSms?.otpMessage,
+            sendSingleSms?.response,
+            UserId,
+            data?.Otp
+        );
+        if (sendSingleSms.code !== 200) {
+            return { code: 422, message: RESPONSEMSG.OTP_FAILED };
+        }
+        return {
+            Mobile: Mobile,
+            Otp: data?.Otp
+        }
+    };
+
     async saveOssSurvey(data) {
         const { StudentMemberId, RCNumber, StudentId, SurveyMode, ParentMobile, ParentAadhar, UserId } = data;
         let fecthData = await this.userRepo.fetchSurveyerData(UserId)
