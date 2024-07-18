@@ -28,19 +28,19 @@ export class AssigningMasters {
     @Column({ default: null, type: 'nvarchar', length: "12" })
     Mobile: string;
 
-    @Column({ default: null, type: 'nvarchar', length: "40" })
+    @Column({ default: null, type: 'nvarchar', length: 150 })
     DistrictCode: string;
 
-    @Column({ default: null, type: 'nvarchar', length: "40" })
+    @Column({ default: null, type: 'nvarchar', length: 150 })
     TalukCode: string;
 
-    @Column({ default: null, type: 'nvarchar', length: "40" })
+    @Column({ default: null, type: 'nvarchar', length: 150 })
     GpCode: string;
 
-    @Column({ default: null, type: 'nvarchar', length: "40" })
+    @Column({ default: null, type: 'nvarchar', length: 150 })
     VillageCode: string;
 
-    @Column({ default: null, type: 'nvarchar', length: "40" })
+    @Column({ default: null, type: 'nvarchar', length: 150 })
     CreatedMobile: string;
 
     @Column({ default: null, type: 'nvarchar', length: "50" })

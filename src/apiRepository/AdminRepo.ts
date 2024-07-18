@@ -123,7 +123,7 @@ export class AdminRepo {
         let roleAccess = await dataAccessRepo.find(
             {
                 where: [{ RoleId: Equal(RoleId) }],
-                select: ['RoleId', 'District', 'GpOrPhc', 'TalukorZone', 'VllageOrWard', 'TypeOfData']
+                select: ['RoleId', 'District', 'GpOrPhc', 'TalukorZone', 'VllageOrWard', 'TypeOfData', 'Department']
             });
         return { roles: roles, access: roleAccess };
     };

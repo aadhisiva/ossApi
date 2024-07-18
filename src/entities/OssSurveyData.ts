@@ -111,11 +111,20 @@ export class OssSurveyData {
   @Column({ type: 'nvarchar', default: null, length: 100 })
   StudentOther: string;
 
+  @Column({ type: 'nvarchar', default: null, length: 400 })
+  ParentGovtIdType: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 400 })
+  ParentGovtIdNo: string;
+
   @Column({ type: 'nvarchar', default: null, length: 100 })
   StudentDisabilityType: string;
 
   @Column({ type: 'nvarchar', default: null, length: 100 })
   StudentSpecialSupport: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 100 })
+  StudentAge: string;
 
   @Column({ type: 'nvarchar', default: null, length: 100 })
   StudentDisability: string;
@@ -134,6 +143,42 @@ export class OssSurveyData {
 
   @Column({ type: 'nvarchar', default: null, length: 100 })
   Remarks: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 300 })
+  ParentMotherTongue: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 300 })
+  SchoolManagementType: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 300 })
+  StudentStayHostel: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 300 })
+  StudentFoundArea: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 300 })
+  StudentFoundAreaType: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 300 })
+  StudentMigratedType: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 300 })
+  StudentMigratedState: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 300 })
+  StudentMigratedDistrict: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 300 })
+  StudentMigratedCountry: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 300 })
+  StudentMigratedToAddress: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 300 })
+  StudentDropoutCount: string;
+
+  @Column({ type: 'nvarchar', default: null, length: 300 })
+  SchoolId: string;
 
   @Column({ type: 'nvarchar', default: null, length: 100 })
   CreatedMobile: string;

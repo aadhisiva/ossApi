@@ -41,19 +41,19 @@ import { RoleHierarchy } from "./rolesHierarchy";
     @Column({ default: null, type: 'nvarchar', length: '60'})
     TokenExpirationTime: string;
 
-    @Column({ default: null, type: 'nvarchar', length: '20'})
+    @Column({ default: null, type: 'nvarchar', length: 150})
     DistrictCode: string;
 
-    @Column({ default: null, type: 'nvarchar', length: '20'})
+    @Column({ default: null, type: 'nvarchar', length: 150})
     TalukCode: string;
 
     @Column({ default: null, type: 'nvarchar', length: '20'})
     Type: string;
 
-    @Column({ default: null, type: 'nvarchar', length: '50'})
+    @Column({ default: null, type: 'nvarchar', length: 150})
     GpOrWard: string;
 
-    @Column({ default: null, type: 'nvarchar', length: '50'})
+    @Column({ default: null, type: 'nvarchar', length: 150})
     VillageCode: string;
 
     @Column({ default: null, type: 'nvarchar', length: '20'})
