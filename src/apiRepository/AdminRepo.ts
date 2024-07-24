@@ -2,7 +2,7 @@ import { Service } from 'typedi';
 import { AppDataSource } from '../db/config';
 import { Admin, Code, Equal } from 'typeorm';
 import { AssigningMasters, DataAccess, MasterData, OssSurveyData, RoleHierarchy, Roles, UserData } from '../entities';
-import { expandAndArranageParameters, expandCodeParameters, expandForMasterData } from '../utils/resuableCode';
+import { expandAndArranageParameters, expandCodeParameters, expandForMasterData, generateUniqueId } from '../utils/resuableCode';
 
 const adminRepo = AppDataSource.getRepository(Admin);
 const assigningMastersRepo = AppDataSource.getRepository(AssigningMasters);
@@ -137,9 +137,14 @@ export class AdminRepo {
 
     async assignToSurveyor(data) {
         const { id } = data;
-        let findData = await userDataRepo.findOneBy({ id: Equal(id) });
-        let newData = { ...findData, ...data };
-        return userDataRepo.save(newData);
+        if(id){
+            let findData = await userDataRepo.findOneBy({ id: Equal(id) });
+            let newData = { ...findData, ...data };
+            return userDataRepo.save(newData);
+        }else {
+            data.UserId = generateUniqueId();
+            return userDataRepo.save(data);
+        }
     };
 
     async updateGpInMaster(data) {
@@ -265,7 +270,7 @@ export class AdminRepo {
         TalukCode=@11 or TalukCode=@12 or TalukCode=@13 or TalukCode=@14 or TalukCode=@15 or TalukCode=@16 or TalukCode=@17 or
         TalukCode=@18 or TalukCode=@19 or TalukCode=@20 or TalukCode=@21 or TalukCode=@22 or TalukCode=@23 or TalukCode=@24 or
         TalukCode=@25 or TalukCode=@26 or TalukCode=@27 or TalukCode=@28 or TalukCode=@29 or TalukCode=@30 or TalukCode=@31 or
-        TalukCode=@32 or TalukCode=@33`;
+        TalukCode=@32 or TalukCode=@33)`;
         let expandCodesParams = expandForMasterData(Type, Codes);
         return await AppDataSource.query(query, expandCodesParams);
      }
