@@ -5,7 +5,7 @@ import { generateOTP, generateUniqueId, saveMobileOtps } from "../utils/resuable
 import { RESPONSEMSG } from "../utils/statusCodes";
 import { BBMP_OFFICER, DISTRICT_OFFICER, DIVISION_OFFICER, GP_OFFICER, TALUK_OFFICER, ZONE_OFFICER } from "../utils/constants";
 import { AssigningMasters } from "../entities";
-
+import XLSX from "xlsx";
 
 @Service()
 export class AdminServices {
@@ -245,5 +245,15 @@ export class AdminServices {
 
     async getSearchReports(data) {
         return await this.adminRepo.fetchSearchReports(data);
+    };
+
+    async downloadDetailsSNG(data) {
+        let results = await this.adminRepo.downloadDetailsSNG(data);
+          // Convert data to XLSX
+        const ws = XLSX.utils.json_to_sheet(results);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'SNGData');
+        const buf = XLSX.write(wb, { bookType: 'xlsx', type: 'buffer' });
+        return buf;
     };
 };  

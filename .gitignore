@@ -1,6 +1,7 @@
 # Logs
 logs
 node_modules
+node_modules.zip
 package-lock.json
 *.log
 npm-debug.log*

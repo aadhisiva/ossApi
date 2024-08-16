@@ -1,6 +1,5 @@
-import cryptoJs from "crypto";
 import Logger from "../../loggers/winstonLogger";
-import { DecryptStringFromEncrypt, HashHMACHex, convertAadharToSha256Hex } from "../resuableCode";
+import { DecryptStringFromEncrypt, generateUniqueId, HashHMACHex } from "../resuableCode";
 import axios from "axios";
 
 const getReqBody = async (data, creteHMAC) => {
@@ -16,7 +15,7 @@ const getReqBody = async (data, creteHMAC) => {
         IsPhotoRequired: "0",
         Member_ID: "",
         Mobile_No: "",
-        Request_ID: "0123456789",
+        Request_ID: generateUniqueId(),
         UIDType: "1"
     };
 };

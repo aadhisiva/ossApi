@@ -210,6 +210,19 @@ adminRouter.post('/getSearchReports', async (req, res) => {
     }
 });
 
+adminRouter.post('/downloadDetailsSNG', async (req, res) => {
+    try {
+        let body = {...req.body, ...{UserId: req?.headers?.userid}};
+        let result = await adminServices.downloadDetailsSNG(body);
+         // Set response headers and send file
+         res.setHeader('Content-Disposition', 'attachment; filename=data.xlsx');
+         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+         res.send(result);
+    } catch (error) {
+        return await webAppResponse(res, error);
+    }
+});
+
 
 export {
     adminRouter

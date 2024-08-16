@@ -13,7 +13,7 @@ import { entities } from "../entityManager";
 
 dotenv.config();
 
-export const AppDataSource= new DataSource({
+export const AppDataSource = new DataSource({
   type: "mssql",
   host: String(process.env.PRO_DB_HOST),
   port: Number(process.env.PRO_DB_PORT),
@@ -24,14 +24,19 @@ export const AppDataSource= new DataSource({
   logging: false,
   synchronize: false,
   options: {
-      encrypt: true,
-      trustServerCertificate: true
+    encrypt: true, // Trust self-signed certificates
+    trustServerCertificate: true // trust self-signed certificate
   },
-  pool: {
-    max: 10,
-    min: 0,
-    idleTimeoutMillis: 3000
-  }
+  extra: {
+    connectionTimeout: 30000, // Timeout in ms before a connection is considered failed
+    requestTimeout: 30000,    // Timeout in ms before a query is considered failed
+    pool: {
+      max: 10,       // Maximum number of connections in pool
+      min: 2,        // Minimum number of connections in pool
+      idleTimeoutMillis: 30000, // Time after which an idle connection will be released
+    }
+  },
+
 });
 
 

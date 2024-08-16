@@ -1,10 +1,10 @@
 import { Service } from 'typedi';
 import { AppDataSource } from '../db/config';
-import { Admin, Code, Equal } from 'typeorm';
-import { AssigningMasters, DataAccess, MasterData, OssSurveyData, RoleHierarchy, Roles, UserData } from '../entities';
+import { Equal } from 'typeorm';
+import { AdminData, AssigningMasters, DataAccess, OssSurveyData, RoleHierarchy, Roles, UserData } from '../entities';
 import { expandAndArranageParameters, expandCodeParameters, expandForMasterData, generateUniqueId } from '../utils/resuableCode';
 
-const adminRepo = AppDataSource.getRepository(Admin);
+const adminRepo = AppDataSource.getRepository(AdminData);
 const assigningMastersRepo = AppDataSource.getRepository(AssigningMasters);
 const roleHierarchyRepo = AppDataSource.getRepository(RoleHierarchy);
 const rolesRepo = AppDataSource.getRepository(Roles);
@@ -293,4 +293,10 @@ export class AdminRepo {
         return await AppDataSource.query(query, [DataType, type, district, taluk, panchayat, village, mode, status, fromData, toDate]);
      }
 
+     async downloadDetailsSNG(data) {
+        let query = `execute getStudentNotGoingDistrictWise @0,@1`;
+        return await AppDataSource.query(query, [data.DistrictCode, data.Type])
+     }
 };
+
+
