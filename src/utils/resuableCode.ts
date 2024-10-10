@@ -105,6 +105,7 @@ export const assignResToTableFormate = (res) => {
   const { applicantDetails, courseDetails, addressDetails } = res;
   let data = new StudentAndSchool();
   data.FatherName = applicantDetails.fatherName || null;
+  data.AadharHash = applicantDetails.aadhaar_hash || null;
   data.Gender = applicantDetails.gender || null;
   data.MotherName = applicantDetails.MotherName || null;
   data.Dob = applicantDetails.dateOfBirth || null;

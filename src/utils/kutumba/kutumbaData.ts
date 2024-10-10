@@ -1,5 +1,5 @@
 import Logger from "../../loggers/winstonLogger";
-import { DecryptStringFromEncrypt, generateUniqueId, HashHMACHex } from "../resuableCode";
+import { DecryptStringFromEncrypt, HashHMACHex } from "../resuableCode";
 import axios from "axios";
 
 const getReqBody = async (data, creteHMAC) => {
@@ -15,7 +15,7 @@ const getReqBody = async (data, creteHMAC) => {
         IsPhotoRequired: "0",
         Member_ID: "",
         Mobile_No: "",
-        Request_ID: generateUniqueId(),
+        Request_ID: "0123456789",
         UIDType: "1"
     };
 };

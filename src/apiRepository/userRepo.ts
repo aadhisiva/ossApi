@@ -165,8 +165,9 @@ export class UserRepo {
 
   async saveSurveyWithSats(data) {
     const { StudentId } = data;
+    const findSats = await studentAndSchoolRepo.findOneBy({StudentId: Equal(StudentId)});
     let findData = await ossDataRepo.findOneBy({ StudentId: Equal(StudentId) });
-    let newData = { ...findData, ...data };
+    let newData = { ...findData, ...data, ...{StudentAadharHash: findSats.AadharHash} };
     return await ossDataRepo.save(newData);
   };
 
