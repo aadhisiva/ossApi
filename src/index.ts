@@ -34,7 +34,7 @@ app.use(compression()); // for response in low sizes
 
 // cors setup for communication of sever and client
 app.use(cors({
-  origin: ["http://103.138.196.120", "https://childrensurvey.karnataka.gov.in", "http://childrensurvey.karnataka.gov.in", "http://localhost:8080"]
+  origin: ["http://103.138.196.120", "https://childrensurvey.karnataka.gov.in", "http://childrensurvey.karnataka.gov.in", "http://localhost:8081"]
 }));
 
 //setting req headers and res headers 

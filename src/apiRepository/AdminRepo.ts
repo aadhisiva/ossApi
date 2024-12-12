@@ -101,7 +101,7 @@ export class AdminRepo {
         let dbRes = await assigningMastersRepo.createQueryBuilder('ad')
             .leftJoinAndSelect(RoleHierarchy, 'rf', 'rf.id=ad.RoleId')
             .select(['ad.DistrictCode as DistrictCode', 'ad.TalukCode as TalukCode', 'ad.GpCode as GpCode',
-                'rf.Role as AssigningType', "rf.id as RoleId"])
+                'rf.Role as AssigningType', "rf.id as RoleId", "ad.IsDlReports as IsDlReports"])
             .where("ad.Mobile = :Mobile", { Mobile })
             .getRawMany();
         return dbRes;
@@ -294,8 +294,8 @@ export class AdminRepo {
      }
 
      async downloadDetailsSNG(data) {
-        let query = `execute getStudentNotGoingDistrictWise @0,@1`;
-        return await AppDataSource.query(query, [data.DistrictCode, data.Type])
+        let query = `execute getStudentNotGoingDistrictWise @0,@1,@2,@3`;
+        return await AppDataSource.query(query, [data.DistrictCode, data.TalukCode, data.Type, data.ReqType])
      }
 };
 

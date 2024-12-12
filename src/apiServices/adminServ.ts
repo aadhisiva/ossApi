@@ -248,6 +248,9 @@ export class AdminServices {
     };
 
     async downloadDetailsSNG(data) {
+        const {DistrictCode, TalukCode, ReqType} = data;
+        if (!DistrictCode) return { code: 400, message: "Provided DistrictCode" };
+        if (!ReqType) return { code: 400, message: "Provided ReqType" };
         let results = await this.adminRepo.downloadDetailsSNG(data);
           // Convert data to XLSX
         const ws = XLSX.utils.json_to_sheet(results);

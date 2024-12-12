@@ -52,6 +52,9 @@ export class AssigningMasters {
     @Column({ default: null, type: 'nvarchar', length: "100" })
     ListType: string;
 
+    @Column({ default: null, type: 'nvarchar', length: 5 })
+    IsDlReports: string;
+
     @CreateDateColumn()
     createdDate: Date;
 
