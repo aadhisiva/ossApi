@@ -160,6 +160,16 @@ adminRouter.post("/getRelatedWise", async (req, res) => {
     }
 });
 
+adminRouter.post("/getVillageWiseSurveyerCountsWise", async (req, res) => {
+    try {
+        let getBody = req.body;
+        let result = await adminServices.getVillageWiseSurveyerCountsWise(getBody);
+        return await webAppResponse(res, result, "", "getVillageWiseSurveyerCountsWise", WEBMESSAGES.GET_ALLDATA, "", "role");
+    } catch (error) {
+        return await webAppResponse(res, error);
+    }
+});
+
 adminRouter.post('/approve', async (req, res) => {
     try {
         let body = {...req.body, ...{UserId: req?.headers?.userid}};

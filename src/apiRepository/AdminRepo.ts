@@ -233,6 +233,12 @@ export class AdminRepo {
         return await AppDataSource.query(query, expandCodesParams);
     };
 
+    async getVillageWiseSurveyerCountsWise(data) {
+        const { LoginType, Code = [], TypeOfData, Mobile } = data;
+        let query = `execute WebGetVillageWiseSurveyerReports @0,@1,@2,@3`;
+        return await AppDataSource.query(query, [LoginType, Code, TypeOfData, Mobile]);
+    };
+
     async approve(data) {
         let findData = await ossDataRepo.findOneBy({ id: Equal(data?.id) });
         let newData = {...findData, ...{ApproveBy: `${data?.ApproveBy}`}};

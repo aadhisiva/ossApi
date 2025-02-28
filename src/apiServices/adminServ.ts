@@ -206,6 +206,10 @@ export class AdminServices {
        return await this.adminRepo.getRelatedWise(data);
     };
 
+    async getVillageWiseSurveyerCountsWise(data) {
+       return await this.adminRepo.getVillageWiseSurveyerCountsWise(data);
+    };
+
     async approve(data) {
         if (!data?.id) return { code: 400, message: "Provided id" };
         let getList = await this.adminRepo.approve(data);
